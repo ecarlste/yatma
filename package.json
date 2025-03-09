@@ -30,6 +30,8 @@
     "zod": "^3.23.3"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.0",
+    "@eslint/js": "^9.22.0",
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.13.10",
     "@types/react": "^19.0.10",
