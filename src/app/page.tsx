@@ -1,5 +1,6 @@
+"use client";
+
 import Image, { type StaticImageData } from "next/image";
-import { HydrateClient } from "~/trpc/server";
 import Button from "./_components/button";
 
 import logoDark from "~/../public/images/logo-dark.svg";
@@ -12,53 +13,32 @@ import IconLightTheme from "./_components/icon-light-theme";
 import IconDarkTheme from "./_components/icon-dark-theme";
 import Switch from "./_components/switch";
 import IconHideSidebar from "./_components/icon-hide-sidebar";
+import { useState } from "react";
 
-export default async function Home() {
+export default function Home() {
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+
   return (
-    <HydrateClient>
-      <main className="flex min-h-lvh w-full">
-        <aside className="border-r-lines-light flex min-h-lvh min-w-75 flex-col gap-14 border-r-1 bg-white pt-8 pb-12">
-          <Image
-            src={logoDark as StaticImageData}
-            alt="Logo"
-            className="ml-8 h-6"
-          />
-
-          <div className="flex flex-1 flex-col justify-between">
-            <div className="flex flex-col gap-5 pr-6">
-              <div className="leading text-medium-grey pl-8 tracking-[2.4px] uppercase">
-                All Boards ({data.boards.length})
-              </div>
-              <div className="flex flex-col">
-                {data.boards.map((board) => (
-                  <BoardListItem
-                    board={board}
-                    key={board.name}
-                    isSelected={board.name === "Platform Launch"}
-                  />
-                ))}
-                <div className="text-main-purple hover:text-main-purple-hover flex items-center gap-4 py-4 pl-8 hover:cursor-pointer">
-                  <IconBoard />+ Create New Board
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2 pr-6">
-              <div className="bg-light-grey-light-bg ml-6 flex h-12 w-auto items-center justify-center gap-4 rounded-md">
-                <IconLightTheme />
-                <Switch />
-                <IconDarkTheme />
-              </div>
-              <div className="text-medium-grey font-heading-medium hover:bg-main-purple/10 hover:text-main-purple flex h-12 items-center gap-4 rounded-r-full pl-8 hover:cursor-pointer">
-                <IconHideSidebar />
-                Hide Sidebar
-              </div>
-            </div>
+    <main className="flex min-h-lvh w-full">
+      <div className="flex min-h-lvh w-full flex-col">
+        <header className="flex h-24 w-full items-center justify-between bg-white">
+          <div
+            className={`border-r-lines-light flex h-full items-center border-r-1 pl-6 ${isSidebarVisible ? "min-w-75" : "min-w-[210px] border-b-1"}`}
+          >
+            <Image
+              src={logoDark as StaticImageData}
+              alt="Logo"
+              className="mb-2 h-6 w-fit"
+            />
           </div>
-        </aside>
-        <div className="flex min-h-lvh w-full flex-col">
-          <header className="border-b-lines-light flex h-24 w-full items-center justify-between border-b-1 bg-white pr-8 pb-2 pl-6">
-            <div className="font-heading text-black">Platform Launch</div>
-            <div className="flex items-center gap-6">
+
+          <div className="border-b-lines-light flex h-full w-full items-center justify-between border-b-1">
+            <div
+              className={`font-heading pb-2 text-black ${isSidebarVisible ? "pl-8" : "pl-6"}`}
+            >
+              Platform Launch
+            </div>
+            <div className="flex items-center gap-6 pr-8 pb-2">
               <Button disabled>+ Add New Task</Button>
               <Image
                 src={iconVerticalEllipsis as StaticImageData}
@@ -66,7 +46,48 @@ export default async function Home() {
                 className="h-5"
               />
             </div>
-          </header>
+          </div>
+        </header>
+        <div className="flex flex-1">
+          <aside
+            className={`border-r-lines-light flex min-w-75 flex-col gap-14 border-r-1 bg-white pt-8 pb-12 ${
+              isSidebarVisible ? "" : "ml-[-300px]"
+            }`}
+          >
+            <div className="flex flex-1 flex-col justify-between">
+              <div className="flex flex-col gap-5 pr-6">
+                <div className="leading text-medium-grey pl-8 tracking-[2.4px] uppercase">
+                  All Boards ({data.boards.length})
+                </div>
+                <div className="flex flex-col">
+                  {data.boards.map((board) => (
+                    <BoardListItem
+                      board={board}
+                      key={board.name}
+                      isSelected={board.name === "Platform Launch"}
+                    />
+                  ))}
+                  <div className="text-main-purple hover:text-main-purple-hover flex items-center gap-4 py-4 pl-8 hover:cursor-pointer">
+                    <IconBoard />+ Create New Board
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-2 pr-6">
+                <div className="bg-light-grey-light-bg ml-6 flex h-12 w-auto items-center justify-center gap-4 rounded-md">
+                  <IconLightTheme />
+                  <Switch />
+                  <IconDarkTheme />
+                </div>
+                <div
+                  className="text-medium-grey font-heading-medium hover:bg-main-purple/10 hover:text-main-purple flex h-12 items-center gap-4 rounded-r-full pl-8 hover:cursor-pointer"
+                  onClick={() => setIsSidebarVisible(false)}
+                >
+                  <IconHideSidebar />
+                  Hide Sidebar
+                </div>
+              </div>
+            </div>
+          </aside>
           <section className="flex flex-1 items-center justify-center">
             <div className="flex flex-col items-center gap-8">
               <p className="font-heading-large text-medium-grey">
@@ -76,7 +97,7 @@ export default async function Home() {
             </div>
           </section>
         </div>
-      </main>
-    </HydrateClient>
+      </div>
+    </main>
   );
 }
