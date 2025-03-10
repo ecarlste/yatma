@@ -4,6 +4,8 @@
 @theme {
   --color-main-purple: hsl(242, 48%, 58%);
   --color-main-purple-hover: hsl(243, 100%, 82%);
+  --color-secondary-purple: hsla(240, 48%, 58%, 0.1);
+  --color-secondary-purple-hover: hsla(240, 48%, 58%, 0.25);
 
   --color-black: hsl(237, 100%, 4%);
   --color-very-dark-grey-bg: hsl(235, 16%, 15%);
@@ -26,20 +28,24 @@
     font-weight: 700;
     letter-spacing: 2.4px;
 
-    @variant md {
-      font-size: 15px;
-      letter-spacing: 0px;
-    }
-
-    @variant lg {
-      font-size: 18px;
-      letter-spacing: 0px;
-    }
-
     @variant xl {
       font-size: 24px;
       letter-spacing: 0px;
     }
+  }
+
+  .font-heading-medium {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0px;
+  }
+
+  .font-heading-large {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0px;
   }
 
   .font-body {
