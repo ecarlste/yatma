@@ -1,4 +1,4 @@
-import { Board } from "~/server/db/schema";
+import { type Board } from "~/server/db/schema";
 import IconBoard from "./icon-board";
 
 type BoardListItemProps = {

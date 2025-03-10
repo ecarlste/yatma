@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import { HydrateClient } from "~/trpc/server";
 import Button from "./_components/button";
 
@@ -18,7 +18,11 @@ export default async function Home() {
     <HydrateClient>
       <main className="flex min-h-lvh w-full">
         <aside className="border-r-lines-light flex min-h-lvh min-w-75 flex-col gap-14 border-r-1 bg-white pt-8 pb-12">
-          <Image src={logoDark} alt="Logo" className="ml-8 h-6" />
+          <Image
+            src={logoDark as StaticImageData}
+            alt="Logo"
+            className="ml-8 h-6"
+          />
 
           <div className="flex flex-1 flex-col justify-between">
             <div className="flex flex-col gap-5 pr-6">
@@ -57,7 +61,7 @@ export default async function Home() {
             <div className="flex items-center gap-6">
               <Button disabled>+ Add New Task</Button>
               <Image
-                src={iconVerticalEllipsis}
+                src={iconVerticalEllipsis as StaticImageData}
                 alt="Vertical Ellipsis"
                 className="h-5"
               />
