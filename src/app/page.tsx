@@ -19,9 +19,8 @@ export default function Home() {
             setIsSidebarOpen={setIsSidebarOpen}
             boards={data.boards}
           />
-          <section className="flex flex-1 items-center justify-center">
-            <TaskBoard />
-          </section>
+
+          <TaskBoard />
         </div>
       </div>
     </main>

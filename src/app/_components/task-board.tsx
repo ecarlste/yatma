@@ -1,21 +1,28 @@
-import { Board } from "~/server/db/schema";
 import Button from "./button";
+import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
+import TaskBoardColumn from "./task-board-column";
 
-type TaskBoardProps = {
-  board?: Board;
-};
+export default function TaskBoard() {
+  const { activeBoard } = useTaskManagerStore((state) => state);
 
-export default function TaskBoard({ board }: TaskBoardProps) {
-  if (!board?.columns?.length) {
+  if (!activeBoard?.columns?.length) {
     return (
-      <div className="flex flex-col items-center gap-8">
-        <p className="font-heading-large text-medium-grey">
-          This board is empty. Create a new column to get started.
-        </p>
-        <Button>+ Add New Column</Button>
-      </div>
+      <section className="flex flex-1 items-center justify-center">
+        <div className="flex flex-col items-center gap-8">
+          <p className="font-heading-large text-medium-grey">
+            This board is empty. Create a new column to get started.
+          </p>
+          <Button>+ Add New Column</Button>
+        </div>
+      </section>
     );
   } else {
-    return <div>Board with items</div>;
+    return (
+      <section className="flex">
+        {activeBoard.columns.map((column) => (
+          <TaskBoardColumn column={column} key={column.name} />
+        ))}
+      </section>
+    );
   }
 }
