@@ -24,7 +24,7 @@ export default function Home() {
       <div className="flex min-h-lvh w-full flex-col">
         <header className="flex h-24 w-full items-center justify-between bg-white">
           <div
-            className={`border-r-lines-light flex h-full items-center border-r-1 ${isSidebarVisible ? "min-w-75 pl-8" : "min-w-[210px] border-b-1 pl-6"}`}
+            className={`border-r-lines-light flex h-full items-center border-r-1 transition-[min-width,padding-left] duration-500 ease-in-out ${isSidebarVisible ? "min-w-75 pl-8" : "min-w-[210px] border-b-1 pl-6"}`}
           >
             <Image
               src={logoDark as StaticImageData}
@@ -51,8 +51,8 @@ export default function Home() {
         </header>
         <div className="flex flex-1">
           <aside
-            className={`border-r-lines-light flex min-w-75 flex-col gap-14 border-r-1 bg-white pt-4 pb-12 ${
-              isSidebarVisible ? "" : "ml-[-300px]"
+            className={`border-r-lines-light flex min-w-75 flex-col gap-14 border-r-1 bg-white pt-4 pb-12 transition-[margin] duration-500 ${
+              isSidebarVisible ? "ml-0" : "ml-[-300px]"
             }`}
           >
             <div className="flex flex-1 flex-col justify-between">
