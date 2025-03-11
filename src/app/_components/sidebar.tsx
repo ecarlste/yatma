@@ -6,6 +6,7 @@ import IconHideSidebar from "./icon-hide-sidebar";
 import IconLightTheme from "./icon-light-theme";
 import IconShowSidebar from "./icon-show-sidebar";
 import Switch from "./switch";
+import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
 
 type SidebarProps = {
   isSidebarOpen: boolean;
@@ -18,6 +19,8 @@ export default function Sidebar({
   setIsSidebarOpen,
   boards,
 }: SidebarProps) {
+  const { activeBoard } = useTaskManagerStore((state) => state);
+
   return (
     <aside
       className={`border-r-lines-light flex min-w-75 flex-col gap-14 border-r-1 bg-white pt-4 pb-12 transition-[margin] duration-500 ${
@@ -34,7 +37,7 @@ export default function Sidebar({
               <BoardListItem
                 board={board}
                 key={board.name}
-                isSelected={board.name === "Platform Launch"}
+                isSelected={board.name === activeBoard.name}
               />
             ))}
             <div className="text-main-purple hover:text-main-purple-hover flex items-center gap-4 py-4 pl-8 hover:cursor-pointer">
