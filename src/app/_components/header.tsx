@@ -31,7 +31,9 @@ export default function Header({ isSidebarOpen }: HeaderProps) {
           {activeBoard.name}
         </h1>
         <div className="flex items-center gap-6 pr-8 pb-2">
-          <Button disabled>+ Add New Task</Button>
+          <Button disabled={activeBoard.columns.length === 0}>
+            + Add New Task
+          </Button>
           <Image
             src={iconVerticalEllipsis as StaticImageData}
             alt="Vertical Ellipsis"
