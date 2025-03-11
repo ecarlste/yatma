@@ -14,6 +14,7 @@ import IconDarkTheme from "./_components/icon-dark-theme";
 import Switch from "./_components/switch";
 import IconHideSidebar from "./_components/icon-hide-sidebar";
 import { useState } from "react";
+import IconShowSidebar from "./_components/icon-show-sidebar";
 
 export default function Home() {
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
@@ -23,7 +24,7 @@ export default function Home() {
       <div className="flex min-h-lvh w-full flex-col">
         <header className="flex h-24 w-full items-center justify-between bg-white">
           <div
-            className={`border-r-lines-light flex h-full items-center border-r-1 pl-6 ${isSidebarVisible ? "min-w-75" : "min-w-[210px] border-b-1"}`}
+            className={`border-r-lines-light flex h-full items-center border-r-1 ${isSidebarVisible ? "min-w-75 pl-8" : "min-w-[210px] border-b-1 pl-6"}`}
           >
             <Image
               src={logoDark as StaticImageData}
@@ -50,7 +51,7 @@ export default function Home() {
         </header>
         <div className="flex flex-1">
           <aside
-            className={`border-r-lines-light flex min-w-75 flex-col gap-14 border-r-1 bg-white pt-8 pb-12 ${
+            className={`border-r-lines-light flex min-w-75 flex-col gap-14 border-r-1 bg-white pt-4 pb-12 ${
               isSidebarVisible ? "" : "ml-[-300px]"
             }`}
           >
@@ -78,12 +79,20 @@ export default function Home() {
                   <Switch />
                   <IconDarkTheme />
                 </div>
-                <div
-                  className="text-medium-grey font-heading-medium hover:bg-main-purple/10 hover:text-main-purple flex h-12 items-center gap-4 rounded-r-full pl-8 hover:cursor-pointer"
-                  onClick={() => setIsSidebarVisible(false)}
-                >
-                  <IconHideSidebar />
-                  Hide Sidebar
+                <div className="flex w-full">
+                  <div
+                    className="text-medium-grey font-heading-medium hover:bg-main-purple/10 hover:text-main-purple mr-[-100] flex h-12 w-full items-center gap-4 rounded-r-full pl-8 hover:cursor-pointer"
+                    onClick={() => setIsSidebarVisible(false)}
+                  >
+                    <IconHideSidebar />
+                    Hide Sidebar
+                  </div>
+                  <div
+                    className={`bg-main-purple hover:bg-main-purple-hover relative left-31 flex h-full w-14 items-center justify-center rounded-r-full text-white hover:cursor-pointer ${isSidebarVisible ? "hidden" : "block"}`}
+                    onClick={() => setIsSidebarVisible(true)}
+                  >
+                    <IconShowSidebar />
+                  </div>
                 </div>
               </div>
             </div>
