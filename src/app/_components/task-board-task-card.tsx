@@ -1,4 +1,4 @@
-import { Task } from "~/server/db/schema";
+import { type Task } from "~/server/db/schema";
 
 type TaskBoardTaskCardProps = {
   task: Task;

@@ -1,5 +1,5 @@
 import { createStore } from "zustand/vanilla";
-import { Board } from "~/server/db/schema";
+import { type Board } from "~/server/db/schema";
 import boardsData from "~/server/db/data.json";
 
 export type TaskManagerState = {

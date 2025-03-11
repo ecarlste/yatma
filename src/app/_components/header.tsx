@@ -1,14 +1,17 @@
-import Image, { StaticImageData } from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import Button from "./button";
 
 import logoDark from "~/../public/images/logo-dark.svg";
 import iconVerticalEllipsis from "~/../public/images/icon-vertical-ellipsis.svg";
+import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
 
 type HeaderProps = {
   isSidebarOpen: boolean;
 };
 
 export default function Header({ isSidebarOpen }: HeaderProps) {
+  const { activeBoard } = useTaskManagerStore((state) => state);
+
   return (
     <header className="flex h-24 w-full items-center justify-between bg-white">
       <div
@@ -25,7 +28,7 @@ export default function Header({ isSidebarOpen }: HeaderProps) {
         <h1
           className={`font-heading pb-2 text-black ${isSidebarOpen ? "pl-8" : "pl-6"}`}
         >
-          Platform Launch
+          {activeBoard.name}
         </h1>
         <div className="flex items-center gap-6 pr-8 pb-2">
           <Button disabled>+ Add New Task</Button>

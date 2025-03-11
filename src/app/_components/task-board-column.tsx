@@ -1,4 +1,4 @@
-import { BoardColumn } from "~/server/db/schema";
+import { type BoardColumn } from "~/server/db/schema";
 import TaskBoardTaskCard from "./task-board-task-card";
 
 type TaskBoardColumnProps = {
