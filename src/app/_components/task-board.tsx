@@ -15,5 +15,7 @@ export default function TaskBoard({ board }: TaskBoardProps) {
         <Button>+ Add New Column</Button>
       </div>
     );
+  } else {
+    return <div>Board with items</div>;
   }
 }
