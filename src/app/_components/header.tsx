@@ -22,11 +22,11 @@ export default function Header({ isSidebarOpen }: HeaderProps) {
       </div>
 
       <div className="border-b-lines-light flex h-full w-full items-center justify-between border-b-1">
-        <div
+        <h1
           className={`font-heading pb-2 text-black ${isSidebarOpen ? "pl-8" : "pl-6"}`}
         >
           Platform Launch
-        </div>
+        </h1>
         <div className="flex items-center gap-6 pr-8 pb-2">
           <Button disabled>+ Add New Task</Button>
           <Image

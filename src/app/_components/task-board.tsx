@@ -18,7 +18,7 @@ export default function TaskBoard() {
     );
   } else {
     return (
-      <section className="flex">
+      <section className="flex gap-6 pt-6 pl-6">
         {activeBoard.columns.map((column) => (
           <TaskBoardColumn column={column} key={column.name} />
         ))}

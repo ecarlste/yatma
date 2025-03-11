@@ -24,14 +24,16 @@
 @layer utilities {
   .font-heading {
     font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0px;
+  }
+
+  .font-heading-small {
+    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 2.4px;
-
-    @variant xl {
-      font-size: 24px;
-      letter-spacing: 0px;
-    }
   }
 
   .font-heading-medium {
@@ -50,14 +52,15 @@
 
   .font-body {
     font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    line-spacing: 23px;
+  }
+
+  .font-body-medium {
+    font-family: "Plus Jakarta Sans", sans-serif;
     font-size: 12px;
     font-weight: 700;
-
-    @variant lg {
-      font-size: 13px;
-      font-weight: 500;
-      line-spacing: 23px;
-    }
   }
 }
 
