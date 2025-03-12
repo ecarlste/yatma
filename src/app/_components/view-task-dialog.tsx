@@ -4,7 +4,8 @@ import IconVerticalEllipsis from "./icon-vertical-ellipsis";
 import SubtaskCheckbox from "./subtask-checkbox";
 
 export default function ViewTaskDialog() {
-  const { viewedTask, setViewedTask } = useTaskManagerStore((state) => state);
+  const { activeBoard, boards, viewedTask, setViewedTask } =
+    useTaskManagerStore((state) => state);
 
   if (!viewedTask) {
     return null;
@@ -13,6 +14,14 @@ export default function ViewTaskDialog() {
   const completedSubtasksCount = viewedTask.subtasks.filter(
     (subtask) => subtask.isCompleted,
   ).length;
+
+  const activeBoardColumns = boards.find(
+    (board) => board.id === activeBoard?.id,
+  )?.columns;
+
+  const columnNames = activeBoardColumns?.map((column) => column.name);
+
+  console.log("columnNames", columnNames);
 
   return (
     <Dialog onClose={() => setViewedTask(null)}>
@@ -35,9 +44,13 @@ export default function ViewTaskDialog() {
             <span className="font-body-medium text-medium-grey">
               Current Status
             </span>
-            <span className="font-heading-medium text-black">
-              {viewedTask.columnId}
-            </span>
+            <select className="font-body border-[rgba(130, 143, 163, 0.25)] h-10 rounded-sm border px-4 text-black">
+              {columnNames?.map((name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </div>
