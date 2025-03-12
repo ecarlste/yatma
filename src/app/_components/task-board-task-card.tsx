@@ -12,6 +12,10 @@ export default function TaskBoardTaskCard({ task }: TaskBoardTaskCardProps) {
     setViewedTask(task);
   };
 
+  const completedSubtasksCount = task.subtasks.filter(
+    (subtask) => subtask.isCompleted,
+  ).length;
+
   return (
     <article
       className="group flex flex-col gap-2 rounded-lg bg-white px-4 py-6 shadow-[0px_4px_6px_0px_rgba(54,78,126,0.10)] hover:cursor-pointer"
@@ -21,7 +25,7 @@ export default function TaskBoardTaskCard({ task }: TaskBoardTaskCardProps) {
         {task.title}
       </h3>
       <div className="font-body-medium text-medium-grey">
-        X of {task.subtasks.length} subtasks
+        {completedSubtasksCount} of {task.subtasks.length} subtasks
       </div>
     </article>
   );
