@@ -1,6 +1,5 @@
 "use client";
 
-import data from "~/server/db/data.json";
 import { useState } from "react";
 import Header from "./_components/header";
 import Sidebar from "./_components/sidebar";
@@ -18,7 +17,6 @@ export default function Home() {
           <Sidebar
             isSidebarOpen={isSidebarOpen}
             setIsSidebarOpen={setIsSidebarOpen}
-            boards={data.boards}
           />
           <TaskBoard />
         </div>

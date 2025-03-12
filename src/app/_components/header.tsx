@@ -30,10 +30,10 @@ export default function Header({ isSidebarOpen }: HeaderProps) {
         <h1
           className={`font-heading pb-2 text-black ${isSidebarOpen ? "pl-8" : "pl-6"}`}
         >
-          {activeBoard.name}
+          {activeBoard?.name}
         </h1>
         <div className="flex items-center gap-6 pr-8 pb-2">
-          <Button disabled={activeBoard.columns.length === 0}>
+          <Button disabled={activeBoard?.columns.length === 0}>
             + Add New Task
           </Button>
           <Image

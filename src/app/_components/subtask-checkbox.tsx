@@ -1,4 +1,4 @@
-import { Subtask } from "~/server/db/schema";
+import { type Subtask } from "~/server/db/schema";
 import IconCheck from "./icon-check";
 
 type SubtaskCheckboxProps = {
@@ -17,7 +17,7 @@ export default function SubtaskCheckbox({ subtask }: SubtaskCheckboxProps) {
         type="checkbox"
         className="peer hidden"
         checked={subtask.isCompleted}
-        onChange={() => {}}
+        onChange={() => console.log("subtask checkbox clicked")}
       />
       <div className="peer-checked:border-main-purple peer-checked:bg-main-purple flex h-4 w-4 shrink-0 appearance-none items-center justify-center rounded-xs border border-[rgba(130,143,163,0.25)]">
         <IconCheck className={subtask.isCompleted ? "block" : "hidden"} />

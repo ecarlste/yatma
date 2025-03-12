@@ -1,7 +1,6 @@
 import Dialog from "./dialog";
 import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
 import IconVerticalEllipsis from "./icon-vertical-ellipsis";
-import IconCheck from "./icon-check";
 import SubtaskCheckbox from "./subtask-checkbox";
 
 export default function ViewTaskDialog() {

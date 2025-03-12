@@ -1,4 +1,3 @@
-import { type Board } from "~/server/db/schema";
 import BoardListItem from "./board-list-item";
 import IconBoard from "./icon-board";
 import IconDarkTheme from "./icon-dark-theme";
@@ -11,15 +10,13 @@ import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
 type SidebarProps = {
   isSidebarOpen: boolean;
   setIsSidebarOpen: (value: boolean) => void;
-  boards: Board[];
 };
 
 export default function Sidebar({
   isSidebarOpen,
   setIsSidebarOpen,
-  boards,
 }: SidebarProps) {
-  const { activeBoard } = useTaskManagerStore((state) => state);
+  const { activeBoard, boards } = useTaskManagerStore((state) => state);
 
   return (
     <aside
@@ -37,7 +34,7 @@ export default function Sidebar({
               <BoardListItem
                 board={board}
                 key={board.name}
-                isSelected={board.name === activeBoard.name}
+                isSelected={board.name === activeBoard?.name}
               />
             ))}
             <div className="text-main-purple hover:text-main-purple-hover flex items-center gap-4 py-4 pl-8 hover:cursor-pointer">
