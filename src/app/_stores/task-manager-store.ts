@@ -1,13 +1,15 @@
 import { createStore } from "zustand/vanilla";
-import { type Board } from "~/server/db/schema";
+import { Task, type Board } from "~/server/db/schema";
 import boardsData from "~/server/db/data.json";
 
 export type TaskManagerState = {
   activeBoard: Board;
+  viewedTask: Task | null;
 };
 
 export type TaskManagerActions = {
   setActiveBoard: (board: Board) => void;
+  setViewedTask: (task: Task | null) => void;
 };
 
 export const initTaskManagerStore = () => {
@@ -23,6 +25,7 @@ export const defaultInitState: TaskManagerState = {
     name: "My First Board",
     columns: [],
   },
+  viewedTask: null,
 };
 
 export const createTaskManagerStore = (
@@ -33,6 +36,10 @@ export const createTaskManagerStore = (
     setActiveBoard: (board) =>
       set(() => ({
         activeBoard: board,
+      })),
+    setViewedTask: (task) =>
+      set(() => ({
+        viewedTask: task,
       })),
   }));
 };
