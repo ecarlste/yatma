@@ -24,8 +24,8 @@ export default function TaskBoardColumn({ column }: TaskBoardColumnProps) {
         </h2>
       </div>
       <div className="flex flex-col gap-5">
-        {column.tasks.map((task, index) => (
-          <TaskBoardTaskCard key={index} task={task} />
+        {column.tasks.map((task) => (
+          <TaskBoardTaskCard key={task.id} task={task} />
         ))}
       </div>
     </div>

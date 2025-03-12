@@ -28,7 +28,7 @@ export default function ViewTaskDialog() {
           </span>
           <div className="flex flex-col gap-2">
             {viewedTask.subtasks.map((subtask) => {
-              return <SubtaskCheckbox key={subtask.title} subtask={subtask} />;
+              return <SubtaskCheckbox key={subtask.id} subtask={subtask} />;
             })}
           </div>
           <div className="flex flex-col gap-2">

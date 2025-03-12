@@ -33,7 +33,7 @@ export default function Sidebar({
             {boards.map((board) => (
               <BoardListItem
                 board={board}
-                key={board.name}
+                key={board.id}
                 isSelected={board.name === activeBoard?.name}
               />
             ))}

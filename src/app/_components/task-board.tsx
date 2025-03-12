@@ -20,7 +20,7 @@ export default function TaskBoard() {
     return (
       <section className="flex gap-6 pt-6 pl-6">
         {activeBoard.columns.map((column) => (
-          <TaskBoardColumn column={column} key={column.name} />
+          <TaskBoardColumn column={column} key={column.id} />
         ))}
       </section>
     );
