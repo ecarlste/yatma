@@ -36,7 +36,7 @@ export default function ViewTaskDialog() {
               Current Status
             </span>
             <span className="font-heading-medium text-black">
-              {viewedTask.status}
+              {viewedTask.columnId}
             </span>
           </div>
         </div>

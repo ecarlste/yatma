@@ -34,7 +34,7 @@ export default function Sidebar({
               <BoardListItem
                 board={board}
                 key={board.id}
-                isSelected={board.name === activeBoard?.name}
+                isSelected={board.id === activeBoard?.id}
               />
             ))}
             <div className="text-main-purple hover:text-main-purple-hover flex items-center gap-4 py-4 pl-8 hover:cursor-pointer">
