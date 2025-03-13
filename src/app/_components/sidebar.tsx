@@ -6,6 +6,7 @@ import IconLightTheme from "./icon-light-theme";
 import IconShowSidebar from "./icon-show-sidebar";
 import Switch from "./switch";
 import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
+import { getBoards } from "~/server/db/boards-dal";
 
 type SidebarProps = {
   isSidebarOpen: boolean;
@@ -16,7 +17,9 @@ export default function Sidebar({
   isSidebarOpen,
   setIsSidebarOpen,
 }: SidebarProps) {
-  const { activeBoard, boards } = useTaskManagerStore((state) => state);
+  const { activeBoardId } = useTaskManagerStore((state) => state);
+
+  const boards = getBoards();
 
   return (
     <aside
@@ -34,7 +37,7 @@ export default function Sidebar({
               <BoardListItem
                 board={board}
                 key={board.id}
-                isSelected={board.id === activeBoard?.id}
+                isSelected={board.id === activeBoardId}
               />
             ))}
             <div className="text-main-purple hover:text-main-purple-hover flex items-center gap-4 py-4 pl-8 hover:cursor-pointer">

@@ -6,13 +6,21 @@ import Button from "./button";
 import logoDark from "~/../public/images/logo-dark.svg";
 import iconVerticalEllipsis from "~/../public/images/icon-vertical-ellipsis.svg";
 import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
+import { getBoardById } from "~/server/db/boards-dal";
 
 type HeaderProps = {
   isSidebarOpen: boolean;
 };
 
 export default function Header({ isSidebarOpen }: HeaderProps) {
-  const { activeBoard } = useTaskManagerStore((state) => state);
+  const { activeBoardId } = useTaskManagerStore((state) => state);
+
+  const activeBoard = getBoardById(activeBoardId);
+  if (!activeBoard) {
+    return null;
+  }
+
+  const isBoardEmpty = activeBoard.columns.length === 0;
 
   return (
     <header className="flex h-24 w-full items-center justify-between bg-white">
@@ -30,12 +38,10 @@ export default function Header({ isSidebarOpen }: HeaderProps) {
         <h1
           className={`font-heading pb-2 text-black ${isSidebarOpen ? "pl-8" : "pl-6"}`}
         >
-          {activeBoard?.name}
+          {activeBoard.name}
         </h1>
         <div className="flex items-center gap-6 pr-8 pb-2">
-          <Button disabled={activeBoard?.columns.length === 0}>
-            + Add New Task
-          </Button>
+          <Button disabled={isBoardEmpty}>+ Add New Task</Button>
           <Image
             src={iconVerticalEllipsis as StaticImageData}
             alt="Vertical Ellipsis"

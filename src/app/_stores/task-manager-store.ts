@@ -1,33 +1,30 @@
 import { createStore } from "zustand/vanilla";
-import { type Task, type Board, type Subtask } from "~/server/db/schema";
-import { boards } from "~/server/db/data/boards";
+import { getBoards } from "~/server/db/boards-dal";
+import { type Task, type Subtask } from "~/server/db/schema";
 
 export type TaskManagerState = {
-  activeBoard: Board | null;
+  activeBoardId: string;
   viewedTask: Task | null;
-  boards: Board[];
 };
 
 export type TaskManagerActions = {
-  setActiveBoard: (board: Board | null) => void;
+  setActiveBoard: (boardId: string) => void;
   setViewedTask: (task: Task | null) => void;
   toggleSubtask: (subtask: Subtask) => void;
 };
 
 export const initTaskManagerStore = () => {
   return {
-    activeBoard: boards[0] ?? null,
+    activeBoardId: getBoards()[0]?.id ?? "",
     viewedTask: null,
-    boards: boards,
   };
 };
 
 export type TaskManagerStore = TaskManagerState & TaskManagerActions;
 
 export const defaultInitState: TaskManagerState = {
-  activeBoard: null,
+  activeBoardId: getBoards()[0]?.id ?? "",
   viewedTask: null,
-  boards: [],
 };
 
 export const createTaskManagerStore = (
@@ -35,9 +32,9 @@ export const createTaskManagerStore = (
 ) => {
   return createStore<TaskManagerStore>()((set) => ({
     ...initState,
-    setActiveBoard: (board) =>
+    setActiveBoard: (boardId) =>
       set(() => ({
-        activeBoard: board,
+        activeBoardId: boardId,
       })),
     setViewedTask: (task) =>
       set(() => ({
@@ -45,68 +42,8 @@ export const createTaskManagerStore = (
       })),
     toggleSubtask: (subtask) =>
       set((state) => {
-        const boards = [...state.boards];
-
-        const { boardIndex, columnIndex, taskIndex, subtaskIndex } =
-          getIndicesRelatedToSubtaskId(boards, subtask.id);
-
-        const updatedSubtask = {
-          ...subtask,
-          isCompleted: !subtask.isCompleted,
-        };
-
-        if (boards[boardIndex]?.columns[columnIndex]?.tasks[taskIndex]) {
-          boards[boardIndex].columns[columnIndex].tasks[taskIndex].subtasks[
-            subtaskIndex
-          ] = updatedSubtask;
-        }
-
-        return { boards };
+        console.log("subtask", subtask);
+        return state;
       }),
   }));
 };
-
-function getIndicesRelatedToSubtaskId(
-  boards: Board[],
-  subtaskId: string,
-): {
-  boardIndex: number;
-  columnIndex: number;
-  taskIndex: number;
-  subtaskIndex: number;
-} {
-  for (let bIndex = 0; bIndex < boards.length; bIndex++) {
-    const board = boards[bIndex];
-    const columns = board?.columns ?? [];
-
-    for (let cIndex = 0; cIndex < columns.length; cIndex++) {
-      const column = columns[cIndex];
-      const tasks = column?.tasks ?? [];
-
-      for (let tIndex = 0; tIndex < tasks.length; tIndex++) {
-        const task = tasks[tIndex];
-        const subtasks = task?.subtasks ?? [];
-
-        for (let sIndex = 0; sIndex < subtasks.length; sIndex++) {
-          const subtask = subtasks[sIndex];
-
-          if (subtask?.id === subtaskId) {
-            return {
-              boardIndex: bIndex,
-              columnIndex: cIndex,
-              taskIndex: tIndex,
-              subtaskIndex: sIndex,
-            };
-          }
-        }
-      }
-    }
-  }
-
-  return {
-    boardIndex: -1,
-    columnIndex: -1,
-    taskIndex: -1,
-    subtaskIndex: -1,
-  };
-}

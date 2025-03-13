@@ -2,11 +2,13 @@ import Dialog from "./dialog";
 import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
 import IconVerticalEllipsis from "./icon-vertical-ellipsis";
 import SubtaskCheckbox from "./subtask-checkbox";
-import IconChevronDown from "./icon-chevron-down";
+import Select from "./select";
+import { getColumnsByBoardId } from "~/server/db/boards-dal";
 
 export default function ViewTaskDialog() {
-  const { activeBoard, boards, viewedTask, setViewedTask } =
-    useTaskManagerStore((state) => state);
+  const { activeBoardId, viewedTask, setViewedTask } = useTaskManagerStore(
+    (state) => state,
+  );
 
   if (!viewedTask) {
     return null;
@@ -16,13 +18,17 @@ export default function ViewTaskDialog() {
     (subtask) => subtask.isCompleted,
   ).length;
 
-  const activeBoardColumns = boards.find(
-    (board) => board.id === activeBoard?.id,
-  )?.columns;
+  const activeBoardColumns = getColumnsByBoardId(activeBoardId);
 
-  const columnNames = activeBoardColumns?.map((column) => column.name);
+  const selectOptions = activeBoardColumns?.map((column) => ({
+    id: column.id,
+    value: column.name,
+  }));
 
-  console.log("columnNames", columnNames);
+  const selectedColumnName =
+    activeBoardColumns?.find((column) =>
+      column.tasks.some((task) => task.id === viewedTask.id),
+    )?.name ?? "";
 
   return (
     <Dialog onClose={() => setViewedTask(null)}>
@@ -45,16 +51,11 @@ export default function ViewTaskDialog() {
             <span className="font-body-medium text-medium-grey">
               Current Status
             </span>
-            <div className="relative">
-              <select className="font-body border-[rgba(130, 143, 163, 0.25)] h-10 w-full appearance-none rounded-sm border px-4 pr-10 text-black">
-                {columnNames?.map((name) => (
-                  <option key={name} value={name}>
-                    {name}
-                  </option>
-                ))}
-              </select>
-              <IconChevronDown className="text-main-purple pointer-events-none absolute top-1/2 right-4 -translate-y-1/2" />
-            </div>
+            <Select
+              options={selectOptions}
+              selected={selectedColumnName}
+              onChange={(option) => console.log("option", option)}
+            />
           </div>
         </div>
       </div>

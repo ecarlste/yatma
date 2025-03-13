@@ -1,11 +1,19 @@
 import Button from "./button";
 import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
 import TaskBoardColumn from "./task-board-column";
+import { getBoardById } from "~/server/db/boards-dal";
 
 export default function TaskBoard() {
-  const { activeBoard } = useTaskManagerStore((state) => state);
+  const { activeBoardId } = useTaskManagerStore((state) => state);
 
-  if (!activeBoard?.columns?.length) {
+  const activeBoard = getBoardById(activeBoardId);
+  if (!activeBoard) {
+    return null;
+  }
+
+  const isBoardEmpty = activeBoard.columns.length === 0;
+
+  if (isBoardEmpty) {
     return (
       <section className="flex flex-1 items-center justify-center">
         <div className="flex flex-col items-center gap-8">
@@ -16,13 +24,13 @@ export default function TaskBoard() {
         </div>
       </section>
     );
-  } else {
-    return (
-      <section className="flex gap-6 pt-6 pl-6">
-        {activeBoard.columns.map((column) => (
-          <TaskBoardColumn column={column} key={column.id} />
-        ))}
-      </section>
-    );
   }
+
+  return (
+    <section className="flex gap-6 pt-6 pl-6">
+      {activeBoard.columns.map((column) => (
+        <TaskBoardColumn column={column} key={column.id} />
+      ))}
+    </section>
+  );
 }

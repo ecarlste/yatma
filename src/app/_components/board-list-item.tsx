@@ -23,7 +23,7 @@ export default function BoardListItem({
     <div
       className={`text-medium-grey flex items-center gap-4 rounded-r-full py-4 pl-8 ${bgColor} ${textColor} ${cursor}`}
       onClick={() => {
-        setActiveBoard(board);
+        setActiveBoard(board.id);
       }}
     >
       <IconBoard />

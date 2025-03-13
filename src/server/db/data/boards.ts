@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { type Board } from "../schema";
 
-export const boards: Board[] = [
+const initialBoards: Board[] = [
   {
     id: "2c1d931f-0808-480f-bc24-8d7c56ac7842",
     name: "Platform Launch",
@@ -592,3 +592,7 @@ export const boards: Board[] = [
     ],
   },
 ];
+
+export function createBoards() {
+  return [...initialBoards];
+}
