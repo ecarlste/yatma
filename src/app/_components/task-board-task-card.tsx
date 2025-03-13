@@ -1,5 +1,6 @@
 import { type Task } from "~/server/db/schema";
 import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
+import { getSubtasksByTaskId } from "~/server/db/boards-dal";
 
 type TaskBoardTaskCardProps = {
   task: Task;
@@ -12,7 +13,9 @@ export default function TaskBoardTaskCard({ task }: TaskBoardTaskCardProps) {
     setViewedTask(task);
   };
 
-  const completedSubtasksCount = task.subtasks.filter(
+  const subtasks = getSubtasksByTaskId(task.id);
+
+  const completedSubtasksCount = subtasks.filter(
     (subtask) => subtask.isCompleted,
   ).length;
 
@@ -25,7 +28,7 @@ export default function TaskBoardTaskCard({ task }: TaskBoardTaskCardProps) {
         {task.title}
       </h3>
       <div className="font-body-medium text-medium-grey">
-        {completedSubtasksCount} of {task.subtasks.length} subtasks
+        {completedSubtasksCount} of {subtasks.length} subtasks
       </div>
     </article>
   );

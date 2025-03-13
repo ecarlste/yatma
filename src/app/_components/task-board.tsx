@@ -1,7 +1,7 @@
 import Button from "./button";
 import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
 import TaskBoardColumn from "./task-board-column";
-import { getBoardById } from "~/server/db/boards-dal";
+import { getBoardById, getColumnsByBoardId } from "~/server/db/boards-dal";
 
 export default function TaskBoard() {
   const { activeBoardId } = useTaskManagerStore((state) => state);
@@ -11,7 +11,8 @@ export default function TaskBoard() {
     return null;
   }
 
-  const isBoardEmpty = activeBoard.columns.length === 0;
+  const columns = getColumnsByBoardId(activeBoardId);
+  const isBoardEmpty = columns.length === 0;
 
   if (isBoardEmpty) {
     return (
@@ -28,7 +29,7 @@ export default function TaskBoard() {
 
   return (
     <section className="flex gap-6 pt-6 pl-6">
-      {activeBoard.columns.map((column) => (
+      {columns.map((column) => (
         <TaskBoardColumn column={column} key={column.id} />
       ))}
     </section>

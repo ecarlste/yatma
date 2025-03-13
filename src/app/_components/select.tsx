@@ -1,15 +1,11 @@
 import { useState } from "react";
 import IconChevronDown from "./icon-chevron-down";
-
-type SelectOption = {
-  id: string;
-  value: string;
-};
+import { BoardColumn } from "~/server/db/schema";
 
 type SelectProps = {
-  options: SelectOption[];
+  options: BoardColumn[];
   selected: string;
-  onChange: (option: SelectOption) => void;
+  onChange: (option: BoardColumn) => void;
 };
 
 export default function Select({ options, selected, onChange }: SelectProps) {
@@ -40,7 +36,7 @@ export default function Select({ options, selected, onChange }: SelectProps) {
                 setIsOpen(false);
               }}
             >
-              {option.value}
+              {option.name}
             </li>
           ))}
         </ul>

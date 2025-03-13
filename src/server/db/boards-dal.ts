@@ -1,7 +1,15 @@
-import { type Board, type Subtask } from "./schema";
+import { type BoardColumn, Task, type Board, type Subtask } from "./schema";
 import { createBoards } from "./data/boards";
+import { createColumns } from "./data/columns";
+import { createTasks } from "./data/tasks";
+import { createSubtasks } from "./data/subtasks";
 
 const boards: Board[] = createBoards();
+const columns: BoardColumn[] = createColumns();
+const tasks: Task[] = createTasks();
+const subtasks: Subtask[] = createSubtasks();
+
+// Boards
 
 export function getBoards() {
   return [...boards];
@@ -11,26 +19,72 @@ export function getBoardById(boardId: string) {
   return boards.find((board) => board.id === boardId);
 }
 
-export function getColumnsByBoardId(boardId: string) {
-  return boards.find((board) => board.id === boardId)?.columns ?? [];
+// Columns
+
+export function getColumnByTaskId(taskId: string) {
+  const task = getTaskById(taskId);
+
+  const column = columns.find((column) => column.id === task.columnId);
+  if (!column) {
+    const errorMessage = `Column with ID ${task.columnId} not found.`;
+    console.error(errorMessage);
+    throw new Error(errorMessage);
+  }
+
+  return column;
 }
 
-export function getSubtaskById(subtaskId: string): Subtask | null {
-  let subtaskFound = null;
+export function getColumnsByBoardId(boardId: string) {
+  return columns.filter((column) => column.boardId === boardId);
+}
 
-  boards.forEach((board) => {
-    board.columns.forEach((column) => {
-      column.tasks.forEach((task) => {
-        task.subtasks.forEach((subtask) => {
-          if (subtask.id === subtaskId) {
-            subtaskFound = subtask;
-          }
-        });
-      });
-    });
-  });
+// Tasks
 
-  return subtaskFound;
+export function getTaskById(taskId: string): Task {
+  const task = tasks.find((task) => task.id === taskId);
+  if (!task) {
+    const errorMessage = `Task with ID ${taskId} not found.`;
+    console.error(errorMessage);
+    throw new Error(errorMessage);
+  }
+
+  return task;
+}
+
+export function getTasksByColumnId(columnId: string): Task[] {
+  return tasks.filter((task) => task.columnId === columnId);
+}
+
+export function updateTaskById(
+  taskId: string,
+  updatedTask: Partial<Task>,
+): Task {
+  const task = getTaskById(taskId);
+  const taskIndex = tasks.findIndex((task) => task.id === taskId);
+
+  tasks[taskIndex] = {
+    ...task,
+    ...updatedTask,
+  };
+
+  return tasks[taskIndex];
+}
+
+// Subtasks
+
+export function getSubtaskById(subtaskId: string): Subtask {
+  const subtask = subtasks.find((subtask) => subtask.id === subtaskId);
+  if (!subtask) {
+    const errorMessage = `Subtask with ID ${subtaskId} not found.`;
+    console.error(errorMessage);
+    throw new Error(errorMessage);
+  }
+
+  return subtask;
+}
+
+export function getSubtasksByTaskId(taskId: string): Subtask[] {
+  return subtasks.filter((subtask) => subtask.taskId === taskId);
 }
 
 export function setSubtaskCompleted(subtaskId: string, isCompleted: boolean) {

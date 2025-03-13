@@ -1,34 +1,66 @@
+"use client";
+
 import Dialog from "./dialog";
 import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
 import IconVerticalEllipsis from "./icon-vertical-ellipsis";
 import SubtaskCheckbox from "./subtask-checkbox";
 import Select from "./select";
-import { getColumnsByBoardId } from "~/server/db/boards-dal";
+import {
+  getColumnByTaskId,
+  getColumnsByBoardId,
+  getSubtasksByTaskId,
+  updateTaskById,
+} from "~/server/db/boards-dal";
+import { useEffect, useState } from "react";
+import { BoardColumn } from "~/server/db/schema";
 
 export default function ViewTaskDialog() {
   const { activeBoardId, viewedTask, setViewedTask } = useTaskManagerStore(
     (state) => state,
   );
+  const [selectedColumn, setSelectedColumn] = useState<BoardColumn | null>(
+    null,
+  );
+
+  useEffect(() => {
+    if (viewedTask) {
+      setSelectedColumn(getColumnByTaskId(viewedTask.id));
+      console.log("running useEffect");
+    }
+  });
 
   if (!viewedTask) {
     return null;
   }
 
-  const completedSubtasksCount = viewedTask.subtasks.filter(
+  const subtasks = getSubtasksByTaskId(viewedTask.id);
+
+  const completedSubtasksCount = subtasks.filter(
     (subtask) => subtask.isCompleted,
   ).length;
 
   const activeBoardColumns = getColumnsByBoardId(activeBoardId);
 
-  const selectOptions = activeBoardColumns?.map((column) => ({
-    id: column.id,
-    value: column.name,
-  }));
+  function handleSelectChange(option: BoardColumn) {
+    setSelectedColumn(option);
 
-  const selectedColumnName =
-    activeBoardColumns?.find((column) =>
-      column.tasks.some((task) => task.id === viewedTask.id),
-    )?.name ?? "";
+    if (!viewedTask) {
+      return;
+    }
+
+    const updatedTask = updateTaskById(viewedTask.id, {
+      ...viewedTask,
+      columnId: option.id,
+    });
+
+    if (!updatedTask) {
+      return;
+    }
+    setViewedTask(updatedTask);
+  }
+
+  console.log("viewedTask", viewedTask);
+  console.log("selectedColumn", selectedColumn);
 
   return (
     <Dialog onClose={() => setViewedTask(null)}>
@@ -40,10 +72,10 @@ export default function ViewTaskDialog() {
         <p className="font-body text-medium-grey">{viewedTask.description}</p>
         <div className="flex flex-col gap-4">
           <span className="font-body-medium text-medium-grey">
-            {`Subtasks (${completedSubtasksCount} of ${viewedTask.subtasks.length})`}
+            {`Subtasks (${completedSubtasksCount} of ${subtasks.length})`}
           </span>
           <div className="flex flex-col gap-2">
-            {viewedTask.subtasks.map((subtask) => {
+            {subtasks.map((subtask) => {
               return <SubtaskCheckbox key={subtask.id} subtask={subtask} />;
             })}
           </div>
@@ -52,9 +84,9 @@ export default function ViewTaskDialog() {
               Current Status
             </span>
             <Select
-              options={selectOptions}
-              selected={selectedColumnName}
-              onChange={(option) => console.log("option", option)}
+              options={activeBoardColumns}
+              selected={selectedColumn?.name ?? ""}
+              onChange={handleSelectChange}
             />
           </div>
         </div>

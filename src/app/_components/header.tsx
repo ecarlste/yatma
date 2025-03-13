@@ -6,7 +6,7 @@ import Button from "./button";
 import logoDark from "~/../public/images/logo-dark.svg";
 import iconVerticalEllipsis from "~/../public/images/icon-vertical-ellipsis.svg";
 import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
-import { getBoardById } from "~/server/db/boards-dal";
+import { getBoardById, getColumnsByBoardId } from "~/server/db/boards-dal";
 
 type HeaderProps = {
   isSidebarOpen: boolean;
@@ -20,7 +20,7 @@ export default function Header({ isSidebarOpen }: HeaderProps) {
     return null;
   }
 
-  const isBoardEmpty = activeBoard.columns.length === 0;
+  const isBoardEmpty = getColumnsByBoardId(activeBoardId).length === 0;
 
   return (
     <header className="flex h-24 w-full items-center justify-between bg-white">
