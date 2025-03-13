@@ -1,4 +1,9 @@
-import { type BoardColumn, Task, type Board, type Subtask } from "./schema";
+import {
+  type BoardColumn,
+  type Task,
+  type Board,
+  type Subtask,
+} from "./schema";
 import { createBoards } from "./data/boards";
 import { createColumns } from "./data/columns";
 import { createTasks } from "./data/tasks";

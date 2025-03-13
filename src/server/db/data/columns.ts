@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { BoardColumn } from "../schema";
+import { type BoardColumn } from "../schema";
 
 const initialColumns: BoardColumn[] = [
   {

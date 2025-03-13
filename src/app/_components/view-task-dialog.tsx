@@ -12,7 +12,7 @@ import {
   updateTaskById,
 } from "~/server/db/boards-dal";
 import { useEffect, useState } from "react";
-import { BoardColumn } from "~/server/db/schema";
+import { type BoardColumn } from "~/server/db/schema";
 
 export default function ViewTaskDialog() {
   const { activeBoardId, viewedTask, setViewedTask } = useTaskManagerStore(
@@ -25,9 +25,8 @@ export default function ViewTaskDialog() {
   useEffect(() => {
     if (viewedTask) {
       setSelectedColumn(getColumnByTaskId(viewedTask.id));
-      console.log("running useEffect");
     }
-  });
+  }, [viewedTask]);
 
   if (!viewedTask) {
     return null;
@@ -58,9 +57,6 @@ export default function ViewTaskDialog() {
     }
     setViewedTask(updatedTask);
   }
-
-  console.log("viewedTask", viewedTask);
-  console.log("selectedColumn", selectedColumn);
 
   return (
     <Dialog onClose={() => setViewedTask(null)}>

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { Subtask } from "../schema";
+import { type Subtask } from "../schema";
 
 const initialSubtasks: Subtask[] = [
   {

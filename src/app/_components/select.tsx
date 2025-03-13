@@ -1,6 +1,6 @@
 import { useState } from "react";
 import IconChevronDown from "./icon-chevron-down";
-import { BoardColumn } from "~/server/db/schema";
+import { type BoardColumn } from "~/server/db/schema";
 
 type SelectProps = {
   options: BoardColumn[];

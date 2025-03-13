@@ -1,4 +1,4 @@
-import { Task } from "../schema";
+import { type Task } from "../schema";
 
 const initialTasks: Task[] = [
   {
