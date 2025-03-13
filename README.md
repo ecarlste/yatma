@@ -16,4 +16,5 @@ This is a Yet Another Task Management App (yatma). The project is bootstrapped w
 - [ ] Implement delete board dialog
 - [ ] Implement delete task dialog
 - [ ] Get dark mode toggle switch wired up w/ Dark mode tailwind theme
+- [ ] Create list of work items to convert from in memory storage to using Encore.ts backend
 - [ ] Create list of work to get mobile/tablet sites working correctly using reponsive layout/tailwind
