@@ -1,6 +1,6 @@
 import { createStore } from "zustand/vanilla";
 import { getBoards } from "~/server/db/boards-dal";
-import { type Task, type Subtask } from "~/server/db/schema";
+import { type Task } from "~/server/db/schema";
 
 export type TaskManagerState = {
   activeBoardId: string;
@@ -10,7 +10,6 @@ export type TaskManagerState = {
 export type TaskManagerActions = {
   setActiveBoard: (boardId: string) => void;
   setViewedTask: (task: Task | null) => void;
-  toggleSubtask: (subtask: Subtask) => void;
 };
 
 export const initTaskManagerStore = () => {
@@ -40,10 +39,5 @@ export const createTaskManagerStore = (
       set(() => ({
         viewedTask: task,
       })),
-    toggleSubtask: (subtask) =>
-      set((state) => {
-        console.log("subtask", subtask);
-        return state;
-      }),
   }));
 };
