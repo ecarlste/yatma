@@ -1,6 +1,8 @@
 package boards
 
-import "context"
+import (
+	"context"
+)
 
 // Create adds a new board with specified attributes.
 //
@@ -11,7 +13,18 @@ import "context"
 //
 //encore:api auth method=POST path=/boards
 func Create(ctx context.Context, req *CreateBoardRequest) (*Board, error) {
-	panic("not yet implemented")
+	var board = &Board{}
+	err := db.QueryRow(ctx, `
+		INSERT INTO boards (name)
+		VALUES ($1)
+		RETURNING id, name
+	`, req.Name).Scan(&board.Id, &board.Name)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return board, nil
 }
 
 // CreateBoardRequest contains the attributes required to create a board.
