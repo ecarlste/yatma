@@ -15,7 +15,7 @@ import (
 //   - NotFound: Returned if no board exists with the given boardId
 //
 //encore:api auth method=GET path=/boards/:boardId
-func RetrieveById(ctx context.Context, boardId int) (*Board, error) {
+func RetrieveById(ctx context.Context, boardId string) (*Board, error) {
 	panic("not yet implemented")
 }
 
