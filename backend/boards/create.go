@@ -30,5 +30,5 @@ func Create(ctx context.Context, req *CreateBoardRequest) (*Board, error) {
 // CreateBoardRequest contains the attributes required to create a board.
 type CreateBoardRequest struct {
 	// Name must be unique and can only contain alphanumeric characters.
-	Name string `json:"name"`
+	BoardName
 }
