@@ -3,13 +3,17 @@ package boards
 
 import "encore.dev/storage/sqldb"
 
+type BoardName struct {
+	// Name must be unique and contain 3-50 alphanumeric characters.
+	Name string `json:"name" validate:"required,min=3,max=50"`
+}
+
 // Board represents a board entity with basic identification and properties.
 type Board struct {
 	// Id is a unique identifier for the board.
 	Id string `json:"id"`
 
-	// Name must be a valid string and unique across boards.
-	Name string `json:"name"`
+	BoardName
 }
 
 type BoardList struct {

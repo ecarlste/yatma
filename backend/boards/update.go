@@ -18,6 +18,5 @@ func Update(ctx context.Context, boardId string, req *UpdateBoardRequest) (*Boar
 
 // UpdateBoardRequest contains the attributes that can be updated for a board.
 type UpdateBoardRequest struct {
-	// Name must be a valid string and unique across boards.
-	Name string `json:"name"`
+	BoardName
 }
