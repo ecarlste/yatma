@@ -22,6 +22,27 @@ const BoardService = {
       result: createdBoard as BoardDto,
     };
   },
+
+  findOne: async (id: string): Promise<BoardResponse> => {
+    const board = await db.queryRow`
+            SELECT id, name
+            FROM boards
+            WHERE id = ${id}
+        `;
+
+    if (!board) {
+      return {
+        success: false,
+        message: "Board not found",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Board found successfully",
+      result: board as BoardDto,
+    };
+  },
 };
 
 export default BoardService;

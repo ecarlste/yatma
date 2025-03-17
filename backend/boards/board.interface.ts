@@ -10,5 +10,6 @@ export type BoardResponse = {
 };
 
 export type CreateBoardDto = Omit<BoardDto, "id">;
-
 export type CreateBoardRequest = CreateBoardDto;
+
+export type ReadOneBoardRequest = Pick<BoardDto, "id">;
