@@ -1,1 +1,4 @@
-{"id": "yatma-backend-ukh2"}
+{
+	"id":   "yatma-backend-ukh2",
+	"lang": "typescript"
+}
