@@ -23,6 +23,24 @@ const BoardService = {
     };
   },
 
+  find: async (): Promise<BoardResponse> => {
+    const rows = await db.query`
+            SELECT id, name
+            FROM boards
+        `;
+
+    const boards: BoardDto[] = [];
+    for await (const row of rows) {
+      boards.push(row as BoardDto);
+    }
+
+    return {
+      success: true,
+      message: "Boards found successfully",
+      result: boards,
+    };
+  },
+
   findOne: async (id: string): Promise<BoardResponse> => {
     const board = await db.queryRow`
             SELECT id, name

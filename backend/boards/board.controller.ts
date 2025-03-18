@@ -14,6 +14,13 @@ export const create = api<CreateBoardRequest, BoardResponse>(
   })
 );
 
+export const read = api<void, BoardResponse>(
+  { expose: true, path: "/boards", method: "GET" },
+  withErrorHandling("reading boards", async () => {
+    return await BoardService.find();
+  })
+);
+
 export const readOne = api<ReadOneBoardRequest, BoardResponse>(
   { expose: true, path: "/boards/:id", method: "GET" },
   withErrorHandling("reading board", async (req) => {
