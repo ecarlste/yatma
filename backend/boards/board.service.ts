@@ -61,6 +61,27 @@ const BoardService = {
       result: board as BoardDto,
     };
   },
+
+  delete: async (id: string): Promise<BoardResponse> => {
+    const deletedBoard = await db.queryRow`
+            DELETE FROM boards
+            WHERE id = ${id}
+            RETURNING id, name
+        `;
+
+    if (!deletedBoard) {
+      return {
+        success: false,
+        message: "Failed to delete board",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Board deleted successfully",
+      result: deletedBoard as BoardDto,
+    };
+  },
 };
 
 export default BoardService;

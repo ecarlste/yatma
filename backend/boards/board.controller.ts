@@ -4,6 +4,7 @@ import BoardService from "./board.service";
 import {
   BoardResponse,
   CreateBoardRequest,
+  DeleteBoardRequest,
   ReadOneBoardRequest,
 } from "./board.interface";
 
@@ -25,5 +26,12 @@ export const readOne = api<ReadOneBoardRequest, BoardResponse>(
   { expose: true, path: "/boards/:id", method: "GET" },
   withErrorHandling("reading board", async (req) => {
     return await BoardService.findOne(req.id);
+  })
+);
+
+export const destroy = api<DeleteBoardRequest, BoardResponse>(
+  { expose: true, path: "/boards/:id", method: "DELETE" },
+  withErrorHandling("deleting board", async (req) => {
+    return await BoardService.delete(req.id);
   })
 );
