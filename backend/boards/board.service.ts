@@ -1,6 +1,10 @@
 import { eq } from "drizzle-orm";
 import { db } from "./board.db";
-import { BoardResponse, CreateBoardDto } from "./board.interface";
+import {
+  BoardResponse,
+  CreateBoardDto,
+  UpdateBoardDto,
+} from "./board.interface";
 import { boardsTable } from "./board.schema";
 
 const BoardService = {
@@ -54,6 +58,26 @@ const BoardService = {
     return {
       success: true,
       result: board,
+    };
+  },
+
+  update: async (id: string, data: UpdateBoardDto): Promise<BoardResponse> => {
+    const [updatedBoard] = await db
+      .update(boardsTable)
+      .set(data)
+      .where(eq(boardsTable.id, id))
+      .returning();
+
+    if (!updatedBoard) {
+      return {
+        success: false,
+        message: "Board not found",
+      };
+    }
+
+    return {
+      success: true,
+      result: updatedBoard,
     };
   },
 

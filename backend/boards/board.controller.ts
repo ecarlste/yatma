@@ -7,6 +7,7 @@ import {
   CreateManyBoardsRequest,
   DeleteBoardRequest,
   ReadOneBoardRequest,
+  UpdateBoardRequest,
 } from "./board.interface";
 
 export const create = api<CreateBoardRequest, BoardResponse>(
@@ -34,6 +35,13 @@ export const readOne = api<ReadOneBoardRequest, BoardResponse>(
   { expose: true, path: "/boards/:id", method: "GET" },
   withErrorHandling("reading board", async (req) => {
     return await BoardService.findOne(req.id);
+  })
+);
+
+export const update = api<UpdateBoardRequest, BoardResponse>(
+  { expose: true, path: "/boards/:id", method: "PUT" },
+  withErrorHandling("updating board", async (req) => {
+    return await BoardService.update(req.id, req.data);
   })
 );
 
