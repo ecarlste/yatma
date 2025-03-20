@@ -6,15 +6,22 @@
   "license": "MPL-2.0",
   "type": "module",
   "scripts": {
-    "test": "echo \"No tests yet...\""
+    "test": "echo \"No tests yet...\"",
+    "db:gen:boards": "drizzle-kit generate --config=boards/drizzle.config.ts",
+    "db:studio:boards": "drizzle-kit studio --config=boards/drizzle-local.config.ts"
   },
   "devDependencies": {
     "@types/node": "^20.5.7",
+    "drizzle-kit": "^0.30.5",
     "typescript": "^5.2.2",
     "vitest": "^1.5.0"
   },
   "dependencies": {
-    "encore.dev": "^1.46.10"
+    "drizzle-orm": "^0.40.1",
+    "drizzle-zod": "^0.7.0",
+    "encore.dev": "^1.46.10",
+    "pg": "^8.14.1",
+    "zod": "^3.24.2"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.13.0"

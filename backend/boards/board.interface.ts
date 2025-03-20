@@ -1,6 +1,8 @@
 export type BoardDto = {
   id: string;
   name: string;
+  createdAt: Date;
+  updatedAt: Date | null;
 };
 
 export type BoardResponse = {
@@ -9,7 +11,7 @@ export type BoardResponse = {
   result?: BoardDto | BoardDto[];
 };
 
-export type CreateBoardDto = Omit<BoardDto, "id">;
+export type CreateBoardDto = Omit<BoardDto, "id" | "createdAt" | "updatedAt">;
 export type CreateBoardRequest = CreateBoardDto;
 
 export type CreateManyBoardsRequest = { boards: CreateBoardDto[] };
