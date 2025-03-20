@@ -4,6 +4,7 @@ import BoardService from "./board.service";
 import {
   BoardResponse,
   CreateBoardRequest,
+  CreateManyBoardsRequest,
   DeleteBoardRequest,
   ReadOneBoardRequest,
 } from "./board.interface";
@@ -12,6 +13,13 @@ export const create = api<CreateBoardRequest, BoardResponse>(
   { expose: true, path: "/boards", method: "POST" },
   withErrorHandling("creating board", async (req) => {
     return await BoardService.create(req);
+  })
+);
+
+export const createMany = api<CreateManyBoardsRequest, BoardResponse>(
+  { expose: true, path: "/boards/bulk", method: "POST" },
+  withErrorHandling("creating boards", async (req) => {
+    return await BoardService.createMany(req.boards);
   })
 );
 

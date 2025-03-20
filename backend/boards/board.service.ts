@@ -23,6 +23,51 @@ const BoardService = {
     };
   },
 
+  createMany: async (boards: CreateBoardDto[]): Promise<BoardResponse> => {
+    const boardNames = boards.map((board) => board.name);
+
+    // Build the query dynamically with a switch for up to 10 boards
+    const rows = (() => {
+      switch (boardNames.length) {
+        case 1:
+          return db.query`INSERT INTO boards (name) VALUES (${boardNames[0]}) RETURNING id, name`;
+        case 2:
+          return db.query`INSERT INTO boards (name) VALUES (${boardNames[0]}), (${boardNames[1]}) RETURNING id, name`;
+        case 3:
+          return db.query`INSERT INTO boards (name) VALUES (${boardNames[0]}), (${boardNames[1]}), (${boardNames[2]}) RETURNING id, name`;
+        case 4:
+          return db.query`INSERT INTO boards (name) VALUES (${boardNames[0]}), (${boardNames[1]}), (${boardNames[2]}), (${boardNames[3]}) RETURNING id, name`;
+        case 5:
+          return db.query`INSERT INTO boards (name) VALUES (${boardNames[0]}), (${boardNames[1]}), (${boardNames[2]}), (${boardNames[3]}), (${boardNames[4]}) RETURNING id, name`;
+        case 6:
+          return db.query`INSERT INTO boards (name) VALUES (${boardNames[0]}), (${boardNames[1]}), (${boardNames[2]}), (${boardNames[3]}), (${boardNames[4]}), (${boardNames[5]}) RETURNING id, name`;
+        case 7:
+          return db.query`INSERT INTO boards (name) VALUES (${boardNames[0]}), (${boardNames[1]}), (${boardNames[2]}), (${boardNames[3]}), (${boardNames[4]}), (${boardNames[5]}), (${boardNames[6]}) RETURNING id, name`;
+        case 8:
+          return db.query`INSERT INTO boards (name) VALUES (${boardNames[0]}), (${boardNames[1]}), (${boardNames[2]}), (${boardNames[3]}), (${boardNames[4]}), (${boardNames[5]}), (${boardNames[6]}), (${boardNames[7]}) RETURNING id, name`;
+        case 9:
+          return db.query`INSERT INTO boards (name) VALUES (${boardNames[0]}), (${boardNames[1]}), (${boardNames[2]}), (${boardNames[3]}), (${boardNames[4]}), (${boardNames[5]}), (${boardNames[6]}), (${boardNames[7]}), (${boardNames[8]}) RETURNING id, name`;
+        case 10:
+          return db.query`INSERT INTO boards (name) VALUES (${boardNames[0]}), (${boardNames[1]}), (${boardNames[2]}), (${boardNames[3]}), (${boardNames[4]}), (${boardNames[5]}), (${boardNames[6]}), (${boardNames[7]}), (${boardNames[8]}), (${boardNames[9]}) RETURNING id, name`;
+        default:
+          throw new Error(
+            `Unsupported number of boards: ${boardNames.length}. Max supported is 10.`
+          );
+      }
+    })();
+
+    const createdBoards: BoardDto[] = [];
+    for await (const row of rows) {
+      createdBoards.push(row as BoardDto);
+    }
+
+    return {
+      success: true,
+      message: "Boards created successfully",
+      result: createdBoards,
+    };
+  },
+
   find: async (): Promise<BoardResponse> => {
     const rows = await db.query`
             SELECT id, name

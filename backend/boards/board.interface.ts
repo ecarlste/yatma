@@ -12,6 +12,8 @@ export type BoardResponse = {
 export type CreateBoardDto = Omit<BoardDto, "id">;
 export type CreateBoardRequest = CreateBoardDto;
 
+export type CreateManyBoardsRequest = { boards: CreateBoardDto[] };
+
 export type ReadOneBoardRequest = Pick<BoardDto, "id">;
 
 export type DeleteBoardRequest = Pick<BoardDto, "id">;
