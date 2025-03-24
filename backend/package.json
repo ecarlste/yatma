@@ -8,7 +8,7 @@
   "scripts": {
     "test": "echo \"No tests yet...\"",
     "db:gen:boards": "drizzle-kit generate --config=boards/drizzle.config.ts",
-    "db:studio:boards": "drizzle-kit studio --config=boards/drizzle-local.config.ts"
+    "db:studio:boards": "drizzle-kit studio --config=boards/drizzle-studio.config.ts"
   },
   "devDependencies": {
     "@types/node": "^20.5.7",
