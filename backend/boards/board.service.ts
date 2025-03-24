@@ -7,6 +7,11 @@ import {
 } from "./board.interface";
 import { boardsTable } from "./board.schema";
 
+const boardNotFoundResponse = {
+  success: false,
+  message: "Board not found",
+};
+
 const BoardService = {
   create: async (board: CreateBoardDto): Promise<BoardResponse> => {
     const [createdBoard] = await db
@@ -49,10 +54,7 @@ const BoardService = {
       .limit(1);
 
     if (!board) {
-      return {
-        success: false,
-        message: "Board not found",
-      };
+      return boardNotFoundResponse;
     }
 
     return {
@@ -69,10 +71,7 @@ const BoardService = {
       .returning();
 
     if (!updatedBoard) {
-      return {
-        success: false,
-        message: "Board not found",
-      };
+      return boardNotFoundResponse;
     }
 
     return {
@@ -88,10 +87,7 @@ const BoardService = {
       .returning();
 
     if (!deletedBoard) {
-      return {
-        success: false,
-        message: "Board not found",
-      };
+      return boardNotFoundResponse;
     }
 
     return {
