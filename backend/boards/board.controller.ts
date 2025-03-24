@@ -11,42 +11,42 @@ import {
 } from "./board.interface";
 
 export const create = api<CreateBoardRequest, BoardResponse>(
-  { expose: true, path: "/boards", method: "POST" },
+  { auth: true, expose: true, path: "/boards", method: "POST" },
   withErrorHandling("creating board", async (req) => {
     return await BoardService.create(req);
   })
 );
 
 export const createMany = api<CreateManyBoardsRequest, BoardResponse>(
-  { expose: true, path: "/boards/bulk", method: "POST" },
+  { auth: true, expose: true, path: "/boards/bulk", method: "POST" },
   withErrorHandling("creating boards", async (req) => {
     return await BoardService.createMany(req.boards);
   })
 );
 
 export const read = api<void, BoardResponse>(
-  { expose: true, path: "/boards", method: "GET" },
+  { auth: true, expose: true, path: "/boards", method: "GET" },
   withErrorHandling("reading boards", async () => {
     return await BoardService.find();
   })
 );
 
 export const readOne = api<ReadOneBoardRequest, BoardResponse>(
-  { expose: true, path: "/boards/:id", method: "GET" },
+  { auth: true, expose: true, path: "/boards/:id", method: "GET" },
   withErrorHandling("reading board", async (req) => {
     return await BoardService.findOne(req.id);
   })
 );
 
 export const update = api<UpdateBoardRequest, BoardResponse>(
-  { expose: true, path: "/boards/:id", method: "PUT" },
+  { auth: true, expose: true, path: "/boards/:id", method: "PUT" },
   withErrorHandling("updating board", async (req) => {
     return await BoardService.update(req.id, req.data);
   })
 );
 
 export const destroy = api<DeleteBoardRequest, BoardResponse>(
-  { expose: true, path: "/boards/:id", method: "DELETE" },
+  { auth: true, expose: true, path: "/boards/:id", method: "DELETE" },
   withErrorHandling("deleting board", async (req) => {
     return await BoardService.delete(req.id);
   })
