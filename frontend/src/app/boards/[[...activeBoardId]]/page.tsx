@@ -4,14 +4,13 @@ import TaskBoard from "~/app/_components/task-board";
 import { getBoards } from "~/server/db/boards-dal";
 
 type ActiveBoardPageProps = {
-  params: {
+  params: Promise<{
     activeBoardId?: string[];
-  };
+  }>;
 };
 
-export default async function ActiveBoardPage({
-  params,
-}: ActiveBoardPageProps) {
+export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
+  const params = await props.params;
   const activeBoardId = params.activeBoardId?.[0] ?? null;
   const boards = await getBoards();
 
