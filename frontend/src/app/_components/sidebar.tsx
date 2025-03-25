@@ -5,21 +5,15 @@ import IconHideSidebar from "./icon-hide-sidebar";
 import IconLightTheme from "./icon-light-theme";
 import IconShowSidebar from "./icon-show-sidebar";
 import Switch from "./switch";
-import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
 import { getBoards } from "~/server/db/boards-dal";
 
 type SidebarProps = {
   isSidebarOpen: boolean;
-  setIsSidebarOpen: (value: boolean) => void;
 };
 
-export default function Sidebar({
-  isSidebarOpen,
-  setIsSidebarOpen,
-}: SidebarProps) {
-  const { activeBoardId } = useTaskManagerStore((state) => state);
-
-  const boards = getBoards();
+export default async function Sidebar({ isSidebarOpen }: SidebarProps) {
+  const boards = await getBoards();
+  const activeBoardId = "79658a55-9205-4f74-a9eb-208c561c291d";
 
   return (
     <aside
@@ -52,16 +46,12 @@ export default function Sidebar({
             <IconDarkTheme />
           </div>
           <div className="flex w-full">
-            <div
-              className="text-medium-grey font-heading-medium hover:bg-main-purple/10 hover:text-main-purple mr-[-100] flex h-12 w-full items-center gap-4 rounded-r-full pl-8 hover:cursor-pointer"
-              onClick={() => setIsSidebarOpen(false)}
-            >
+            <div className="text-medium-grey font-heading-medium hover:bg-main-purple/10 hover:text-main-purple mr-[-100] flex h-12 w-full items-center gap-4 rounded-r-full pl-8 hover:cursor-pointer">
               <IconHideSidebar />
               Hide Sidebar
             </div>
             <div
               className={`bg-main-purple hover:bg-main-purple-hover relative left-31 flex h-full w-14 items-center justify-center rounded-r-full text-white hover:cursor-pointer ${isSidebarOpen ? "hidden" : "block"}`}
-              onClick={() => setIsSidebarOpen(true)}
             >
               <IconShowSidebar />
             </div>

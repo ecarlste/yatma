@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import IconChevronDown from "./icon-chevron-down";
 import { type BoardColumn } from "~/server/db/schema";
@@ -5,10 +7,9 @@ import { type BoardColumn } from "~/server/db/schema";
 type SelectProps = {
   options: BoardColumn[];
   selected: string;
-  onChange: (option: BoardColumn) => void;
 };
 
-export default function Select({ options, selected, onChange }: SelectProps) {
+export default function Select({ options, selected }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -32,7 +33,6 @@ export default function Select({ options, selected, onChange }: SelectProps) {
               className="hover:bg-main-purple/25 cursor-pointer px-4 py-1 transition"
               onMouseDown={(e) => e.preventDefault()} // Prevents dropdown from closing before click registers
               onClick={() => {
-                onChange(option);
                 setIsOpen(false);
               }}
             >

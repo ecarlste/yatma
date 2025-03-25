@@ -1,5 +1,4 @@
 import { type Task } from "~/server/db/schema";
-import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
 import { getSubtasksByTaskId } from "~/server/db/boards-dal";
 
 type TaskBoardTaskCardProps = {
@@ -7,11 +6,7 @@ type TaskBoardTaskCardProps = {
 };
 
 export default function TaskBoardTaskCard({ task }: TaskBoardTaskCardProps) {
-  const { setViewedTask } = useTaskManagerStore((state) => state);
-
-  const handleClick = () => {
-    setViewedTask(task);
-  };
+  const handleClick = () => {};
 
   const subtasks = getSubtasksByTaskId(task.id);
 

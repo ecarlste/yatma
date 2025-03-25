@@ -4,7 +4,7 @@ import TaskBoardColumn from "./task-board-column";
 import { getBoardById, getColumnsByBoardId } from "~/server/db/boards-dal";
 
 export default function TaskBoard() {
-  const { activeBoardId } = useTaskManagerStore((state) => state);
+  const activeBoardId = "79658a55-9205-4f74-a9eb-208c561c291d";
 
   const activeBoard = getBoardById(activeBoardId);
   if (!activeBoard) {

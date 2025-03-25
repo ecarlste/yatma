@@ -1,15 +1,9 @@
-import {
-  type BoardColumn,
-  type Task,
-  type Board,
-  type Subtask,
-} from "./schema";
-import { createBoards } from "./data/boards";
+import { type BoardColumn, type Task, type Subtask } from "./schema";
 import { createColumns } from "./data/columns";
 import { createTasks } from "./data/tasks";
 import { createSubtasks } from "./data/subtasks";
+import { readAllBoards, readBoardWithId } from "../dto/boards-dto";
 
-const boards: Board[] = createBoards();
 const columns: BoardColumn[] = createColumns();
 const tasks: Task[] = createTasks();
 const subtasks: Subtask[] = createSubtasks();
@@ -17,11 +11,11 @@ const subtasks: Subtask[] = createSubtasks();
 // Boards
 
 export function getBoards() {
-  return [...boards];
+  return readAllBoards();
 }
 
 export function getBoardById(boardId: string) {
-  return boards.find((board) => board.id === boardId);
+  return readBoardWithId(boardId);
 }
 
 // Columns

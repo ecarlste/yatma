@@ -1,9 +1,8 @@
 import { createStore } from "zustand/vanilla";
-import { getBoards } from "~/server/db/boards-dal";
 import { type Task } from "~/server/db/schema";
 
 export type TaskManagerState = {
-  activeBoardId: string;
+  activeBoardId: string | null;
   viewedTask: Task | null;
 };
 
@@ -14,7 +13,7 @@ export type TaskManagerActions = {
 
 export const initTaskManagerStore = () => {
   return {
-    activeBoardId: getBoards()[0]?.id ?? "",
+    activeBoardId: null,
     viewedTask: null,
   };
 };
@@ -22,7 +21,7 @@ export const initTaskManagerStore = () => {
 export type TaskManagerStore = TaskManagerState & TaskManagerActions;
 
 export const defaultInitState: TaskManagerState = {
-  activeBoardId: getBoards()[0]?.id ?? "",
+  activeBoardId: null,
   viewedTask: null,
 };
 
