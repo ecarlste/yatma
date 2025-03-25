@@ -9,8 +9,7 @@ type HeaderProps = {
 };
 
 export default async function Header({ isSidebarOpen }: HeaderProps) {
-  const activeBoardId = "79658a55-9205-4f74-a9eb-208c561c291d";
-  // const activeBoardId = null;
+  const activeBoardId = null;
 
   let activeBoard = null;
   if (activeBoardId != null) {

@@ -1,3 +1,4 @@
+import { Board } from "~/lib/types";
 import BoardListItem from "./board-list-item";
 import IconBoard from "./icon-board";
 import IconDarkTheme from "./icon-dark-theme";
@@ -5,16 +6,18 @@ import IconHideSidebar from "./icon-hide-sidebar";
 import IconLightTheme from "./icon-light-theme";
 import IconShowSidebar from "./icon-show-sidebar";
 import Switch from "./switch";
-import { getBoards } from "~/server/db/boards-dal";
 
 type SidebarProps = {
   isSidebarOpen: boolean;
+  boards: Board[];
+  activeBoardId: string | null;
 };
 
-export default async function Sidebar({ isSidebarOpen }: SidebarProps) {
-  const boards = await getBoards();
-  const activeBoardId = "79658a55-9205-4f74-a9eb-208c561c291d";
-
+export default async function Sidebar({
+  isSidebarOpen,
+  boards,
+  activeBoardId,
+}: SidebarProps) {
   return (
     <aside
       className={`border-r-lines-light flex min-w-75 flex-col gap-14 border-r-1 bg-white pt-4 pb-12 transition-[margin] duration-500 ${

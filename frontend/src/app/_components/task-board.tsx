@@ -1,10 +1,19 @@
 import Button from "./button";
-import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
 import TaskBoardColumn from "./task-board-column";
 import { getBoardById, getColumnsByBoardId } from "~/server/db/boards-dal";
 
 export default function TaskBoard() {
-  const activeBoardId = "79658a55-9205-4f74-a9eb-208c561c291d";
+  const activeBoardId = null;
+
+  if (!activeBoardId) {
+    return (
+      <section className="flex flex-1 items-center justify-center">
+        <p className="font-heading-large text-medium-grey">
+          Select a board to see its tasks.
+        </p>
+      </section>
+    );
+  }
 
   const activeBoard = getBoardById(activeBoardId);
   if (!activeBoard) {

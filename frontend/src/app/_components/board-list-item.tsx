@@ -1,5 +1,6 @@
 import { type Board } from "~/server/db/schema";
 import IconBoard from "./icon-board";
+import Link from "next/link";
 
 type BoardListItemProps = {
   board: Board;
@@ -17,11 +18,13 @@ export default function BoardListItem({
   const cursor = isSelected ? "" : "hover:cursor-pointer";
 
   return (
-    <div
-      className={`text-medium-grey flex items-center gap-4 rounded-r-full py-4 pl-8 ${bgColor} ${textColor} ${cursor}`}
-    >
-      <IconBoard />
-      {board.name}
-    </div>
+    <Link href={`/boards/${board.id}`}>
+      <div
+        className={`text-medium-grey flex items-center gap-4 rounded-r-full py-4 pl-8 ${bgColor} ${textColor} ${cursor}`}
+      >
+        <IconBoard />
+        {board.name}
+      </div>
+    </Link>
   );
 }
