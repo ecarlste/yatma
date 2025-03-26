@@ -23,9 +23,7 @@ export const TaskManagerStoreProvider = ({
   children,
 }: TaskManagerStoreProviderProps) => {
   const storeRef = useRef<TaskManagerStoreApi>(null);
-  if (!storeRef.current) {
-    storeRef.current = createTaskManagerStore(initTaskManagerStore());
-  }
+  storeRef.current ??= createTaskManagerStore(initTaskManagerStore());
 
   return (
     <TaskManagerStoreContext.Provider value={storeRef.current}>
