@@ -3,6 +3,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
+      "env": ["ENCORE_BACKEND_CLIENT_API_KEY"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "dev": {
