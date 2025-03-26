@@ -1,0 +1,19 @@
+{
+  "name": "yatma",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "check": "turbo run check"
+  },
+  "packageManager": "pnpm@10.7.0",
+  "devDependencies": {
+    "turbo": "^2.4.4"
+  }
+}
