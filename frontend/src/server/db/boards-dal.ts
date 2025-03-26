@@ -1,4 +1,4 @@
-import { type BoardColumn, type Task, type Subtask } from "./schema";
+import { type BoardColumn, type Task, type Subtask } from "~/lib/types";
 import { createColumns } from "./data/columns";
 import { createTasks } from "./data/tasks";
 import { createSubtasks } from "./data/subtasks";

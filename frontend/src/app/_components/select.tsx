@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import IconChevronDown from "./icon-chevron-down";
-import { type BoardColumn } from "~/server/db/schema";
+import { type BoardColumn } from "~/lib/types";
 
 type SelectProps = {
   options: BoardColumn[];

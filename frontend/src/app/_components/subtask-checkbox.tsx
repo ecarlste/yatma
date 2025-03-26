@@ -1,4 +1,4 @@
-import { type Subtask } from "~/server/db/schema";
+import { type Subtask } from "~/lib/types";
 import IconCheck from "./icon-check";
 
 type SubtaskCheckboxProps = {

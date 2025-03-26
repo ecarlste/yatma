@@ -2,7 +2,7 @@ import Dialog from "./dialog";
 import IconVerticalEllipsis from "./icon-vertical-ellipsis";
 import SubtaskCheckbox from "./subtask-checkbox";
 import Select from "./select";
-import { Subtask, Task, type BoardColumn } from "~/server/db/schema";
+import { type Subtask, type Task, type BoardColumn } from "~/lib/types";
 
 type ViewTaskDialogProps = {
   task: Task;
@@ -37,7 +37,7 @@ export default function ViewTaskDialog({
                 <SubtaskCheckbox
                   key={subtask.id}
                   subtask={subtask}
-                  onStatusChange={() => {}}
+                  onStatusChange={() => console.log("subtask status changed")}
                 />
               );
             })}

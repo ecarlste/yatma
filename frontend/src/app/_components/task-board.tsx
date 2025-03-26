@@ -2,7 +2,7 @@ import Button from "./button";
 import TaskBoardColumn from "./task-board-column";
 import { getBoardById, getColumnsByBoardId } from "~/server/db/boards-dal";
 
-export default function TaskBoard() {
+export default async function TaskBoard() {
   const activeBoardId = null;
 
   if (!activeBoardId) {
@@ -15,7 +15,7 @@ export default function TaskBoard() {
     );
   }
 
-  const activeBoard = getBoardById(activeBoardId);
+  const activeBoard = await getBoardById(activeBoardId);
   if (!activeBoard) {
     return null;
   }

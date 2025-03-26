@@ -1,4 +1,4 @@
-import { Board } from "~/lib/types";
+import { type Board } from "~/lib/types";
 import BoardListItem from "./board-list-item";
 import IconBoard from "./icon-board";
 import IconDarkTheme from "./icon-dark-theme";

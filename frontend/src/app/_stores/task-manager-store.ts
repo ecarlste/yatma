@@ -1,5 +1,5 @@
 import { createStore } from "zustand/vanilla";
-import { type Task } from "~/server/db/schema";
+import { type Task } from "~/lib/types";
 
 export type TaskManagerState = {
   activeBoardId: string | null;

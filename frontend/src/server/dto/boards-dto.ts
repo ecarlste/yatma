@@ -1,6 +1,6 @@
 import "server-only";
 import getBoardsClient from "../clients/get-boards-client";
-import { boards } from "../generated/encore-backend-client";
+import { type boards } from "../generated/encore-backend-client";
 
 const client = getBoardsClient();
 

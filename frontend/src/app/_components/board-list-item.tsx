@@ -1,4 +1,4 @@
-import { type Board } from "~/server/db/schema";
+import { type Board } from "~/lib/types";
 import IconBoard from "./icon-board";
 import Link from "next/link";
 

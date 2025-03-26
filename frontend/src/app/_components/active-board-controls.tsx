@@ -1,4 +1,4 @@
-import Image, { StaticImageData } from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import Button from "./button";
 import iconVerticalEllipsis from "~/../public/images/icon-vertical-ellipsis.svg";
 

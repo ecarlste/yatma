@@ -1,4 +1,4 @@
-import { type Task } from "~/server/db/schema";
+import { type Task } from "~/lib/types";
 import { getSubtasksByTaskId } from "~/server/db/boards-dal";
 
 type TaskBoardTaskCardProps = {
@@ -6,8 +6,6 @@ type TaskBoardTaskCardProps = {
 };
 
 export default function TaskBoardTaskCard({ task }: TaskBoardTaskCardProps) {
-  const handleClick = () => {};
-
   const subtasks = getSubtasksByTaskId(task.id);
 
   const completedSubtasksCount = subtasks.filter(
@@ -15,10 +13,7 @@ export default function TaskBoardTaskCard({ task }: TaskBoardTaskCardProps) {
   ).length;
 
   return (
-    <article
-      className="group flex flex-col gap-2 rounded-lg bg-white px-4 py-6 shadow-[0px_4px_6px_0px_rgba(54,78,126,0.10)] hover:cursor-pointer"
-      onClick={handleClick}
-    >
+    <article className="group flex flex-col gap-2 rounded-lg bg-white px-4 py-6 shadow-[0px_4px_6px_0px_rgba(54,78,126,0.10)] hover:cursor-pointer">
       <h3 className="font-heading-medium group-hover:text-main-purple">
         {task.title}
       </h3>
