@@ -6,6 +6,7 @@
   "license": "MPL-2.0",
   "type": "module",
   "scripts": {
+    "dev": "encore run",
     "test": "echo \"No tests yet...\"",
     "db:gen:boards": "drizzle-kit generate --config=boards/drizzle.config.ts",
     "db:studio:boards": "drizzle-kit studio --config=boards/drizzle-studio.config.ts",
@@ -20,7 +21,7 @@
   "dependencies": {
     "drizzle-orm": "^0.40.1",
     "drizzle-zod": "^0.7.0",
-    "encore.dev": "^1.46.10",
+    "encore.dev": "^1.46.13",
     "pg": "^8.14.1",
     "zod": "^3.24.2"
   },
