@@ -13,13 +13,14 @@ export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
   const params = await props.params;
   const activeBoardId = params.activeBoardId?.[0] ?? null;
   const boards = await getBoards();
+  const activeBoard = boards.find((board) => board.id === activeBoardId);
 
   const isSidebarOpen = true;
 
   return (
     <main className="relative flex min-h-lvh w-full">
       <div className="flex min-h-lvh w-full flex-col">
-        <Header isSidebarOpen={isSidebarOpen} />
+        <Header isSidebarOpen={isSidebarOpen} board={activeBoard} />
         <div className="flex flex-1">
           <Sidebar
             isSidebarOpen={isSidebarOpen}

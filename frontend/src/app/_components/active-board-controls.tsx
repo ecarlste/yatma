@@ -3,13 +3,13 @@ import Button from "./button";
 import iconVerticalEllipsis from "~/../public/images/icon-vertical-ellipsis.svg";
 
 type ActiveBoardControlsProps = {
-  isBoardEmpty: boolean;
+  isButtonDisabled: boolean;
 };
 
-function ActiveBoardControls({ isBoardEmpty }: ActiveBoardControlsProps) {
+function ActiveBoardControls({ isButtonDisabled }: ActiveBoardControlsProps) {
   return (
     <div className="flex items-center gap-6 pr-8 pb-2">
-      <Button disabled={isBoardEmpty}>+ Add New Task</Button>
+      <Button disabled={isButtonDisabled}>+ Add New Task</Button>
       <Image
         src={iconVerticalEllipsis as StaticImageData}
         alt="Vertical Ellipsis"

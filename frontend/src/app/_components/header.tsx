@@ -1,24 +1,20 @@
 import Image, { type StaticImageData } from "next/image";
 
 import logoDark from "~/../public/images/logo-dark.svg";
-import { getBoardById, getColumnsByBoardId } from "~/server/db/boards-dal";
+import { getColumnsByBoardId } from "~/server/db/boards-dal";
 import ActiveBoardControls from "./active-board-controls";
+import { type Board } from "~/lib/types";
 
 type HeaderProps = {
   isSidebarOpen: boolean;
+  board?: Board;
 };
 
-export default async function Header({ isSidebarOpen }: HeaderProps) {
-  const activeBoardId = null;
-
-  let activeBoard = null;
-  if (activeBoardId != null) {
-    activeBoard = await getBoardById(activeBoardId);
+export default async function Header({ isSidebarOpen, board }: HeaderProps) {
+  let isBoardEmpty = true;
+  if (board) {
+    isBoardEmpty = getColumnsByBoardId(board.id).length === 0;
   }
-
-  const isBoardEmpty = activeBoardId
-    ? getColumnsByBoardId(activeBoardId).length === 0
-    : true;
 
   return (
     <header className="flex h-24 w-full items-center justify-between bg-white">
@@ -33,16 +29,16 @@ export default async function Header({ isSidebarOpen }: HeaderProps) {
       </div>
 
       <div
-        className={`border-b-lines-light flex h-full w-full items-center ${activeBoard ? "justify-between" : "justify-end"} border-b-1`}
+        className={`border-b-lines-light flex h-full w-full items-center ${board ? "justify-between" : "justify-end"} border-b-1`}
       >
-        {activeBoard && (
+        {board && (
           <h1
             className={`font-heading pb-2 text-black ${isSidebarOpen ? "pl-8" : "pl-6"}`}
           >
-            {activeBoard.name}
+            {board.name}
           </h1>
         )}
-        <ActiveBoardControls isBoardEmpty={isBoardEmpty} />
+        <ActiveBoardControls isButtonDisabled={isBoardEmpty} />
       </div>
     </header>
   );
