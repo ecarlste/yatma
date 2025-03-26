@@ -1,11 +1,13 @@
+import { type BoardColumn } from "~/lib/types";
 import Button from "./button";
 import TaskBoardColumn from "./task-board-column";
-import { getBoardById, getColumnsByBoardId } from "~/server/db/boards-dal";
 
-export default async function TaskBoard() {
-  const activeBoardId = null;
+type TaskBoardProps = {
+  columns?: BoardColumn[];
+};
 
-  if (!activeBoardId) {
+export default async function TaskBoard({ columns }: TaskBoardProps) {
+  if (!columns) {
     return (
       <section className="flex flex-1 items-center justify-center">
         <p className="font-heading-large text-medium-grey">
@@ -15,12 +17,6 @@ export default async function TaskBoard() {
     );
   }
 
-  const activeBoard = await getBoardById(activeBoardId);
-  if (!activeBoard) {
-    return null;
-  }
-
-  const columns = getColumnsByBoardId(activeBoardId);
   const isBoardEmpty = columns.length === 0;
 
   if (isBoardEmpty) {

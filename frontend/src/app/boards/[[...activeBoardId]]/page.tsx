@@ -1,7 +1,7 @@
 import Header from "~/app/_components/header";
 import Sidebar from "~/app/_components/sidebar";
 import TaskBoard from "~/app/_components/task-board";
-import { getBoards } from "~/server/db/boards-dal";
+import { getBoards, getColumnsByBoardId } from "~/server/db/boards-dal";
 
 type ActiveBoardPageProps = {
   params: Promise<{
@@ -15,6 +15,10 @@ export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
   const boards = await getBoards();
   const activeBoard = boards.find((board) => board.id === activeBoardId);
 
+  const activeBoardColumns = activeBoard
+    ? getColumnsByBoardId(activeBoard.id)
+    : undefined;
+
   const isSidebarOpen = true;
 
   return (
@@ -27,7 +31,7 @@ export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
             boards={boards}
             activeBoardId={activeBoardId}
           />
-          <TaskBoard />
+          <TaskBoard columns={activeBoardColumns} />
         </div>
       </div>
     </main>
