@@ -1,12 +1,10 @@
-import { type boards } from "~/server/generated/encore-backend-client";
+import {
+  type boardColumns,
+  type boards,
+} from "~/server/generated/encore-backend-client";
 
 export type Board = boards.BoardDto;
-
-export type BoardColumn = {
-  id: string;
-  name: string;
-  boardId: string;
-};
+export type BoardColumn = boardColumns.BoardColumnDto;
 
 export type Task = {
   id: string;

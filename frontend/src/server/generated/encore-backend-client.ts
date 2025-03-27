@@ -76,6 +76,41 @@ export namespace auth {
 }
 
 export namespace boardColumns {
+    export interface BoardColumnDto {
+        id: string
+        name: string
+        boardId: string
+        createdAt: string
+        updatedAt: string | null
+    }
+
+    export interface BoardColumnResponse {
+        success?: boolean
+        message?: string
+        result?: BoardColumnDto | BoardColumnDto[]
+    }
+
+    export interface CreateBoardColumnDto {
+        name: string
+        boardId: string
+    }
+
+    export interface CreateBoardColumnRequest {
+        name: string
+        boardId: string
+    }
+
+    export interface CreateManyBoardColumnsRequest {
+        boardColumns: CreateBoardColumnDto[]
+    }
+
+    export interface UpdateBoardColumnDto {
+        name?: string
+    }
+
+    export interface UpdateBoardColumnRequest {
+        data: UpdateBoardColumnDto
+    }
 
     export class ServiceClient {
         private baseClient: BaseClient
@@ -84,40 +119,40 @@ export namespace boardColumns {
             this.baseClient = baseClient
         }
 
-        public async create(params: board_columns.CreateBoardColumnRequest): Promise<board_columns.BoardColumnResponse> {
+        public async create(params: CreateBoardColumnRequest): Promise<BoardColumnResponse> {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI("POST", `/boardColumns`, JSON.stringify(params))
-            return await resp.json() as board_columns.BoardColumnResponse
+            return await resp.json() as BoardColumnResponse
         }
 
-        public async createMany(params: board_columns.CreateManyBoardColumnsRequest): Promise<board_columns.BoardColumnResponse> {
+        public async createMany(params: CreateManyBoardColumnsRequest): Promise<BoardColumnResponse> {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI("POST", `/boardColumns/bulk`, JSON.stringify(params))
-            return await resp.json() as board_columns.BoardColumnResponse
+            return await resp.json() as BoardColumnResponse
         }
 
-        public async destroy(id: string): Promise<board_columns.BoardColumnResponse> {
+        public async destroy(id: string): Promise<BoardColumnResponse> {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI("DELETE", `/boardColumns/${encodeURIComponent(id)}`)
-            return await resp.json() as board_columns.BoardColumnResponse
+            return await resp.json() as BoardColumnResponse
         }
 
-        public async read(): Promise<board_columns.BoardColumnResponse> {
+        public async read(): Promise<BoardColumnResponse> {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI("GET", `/boardColumns`)
-            return await resp.json() as board_columns.BoardColumnResponse
+            return await resp.json() as BoardColumnResponse
         }
 
-        public async readOne(id: string): Promise<board_columns.BoardColumnResponse> {
+        public async readOne(id: string): Promise<BoardColumnResponse> {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI("GET", `/boardColumns/${encodeURIComponent(id)}`)
-            return await resp.json() as board_columns.BoardColumnResponse
+            return await resp.json() as BoardColumnResponse
         }
 
-        public async update(id: string, params: board_columns.UpdateBoardColumnRequest): Promise<board_columns.BoardColumnResponse> {
+        public async update(id: string, params: UpdateBoardColumnRequest): Promise<BoardColumnResponse> {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI("PUT", `/boardColumns/${encodeURIComponent(id)}`, JSON.stringify(params))
-            return await resp.json() as board_columns.BoardColumnResponse
+            return await resp.json() as BoardColumnResponse
         }
     }
 }
@@ -198,44 +233,6 @@ export namespace boards {
             const resp = await this.baseClient.callTypedAPI("PUT", `/boards/${encodeURIComponent(id)}`, JSON.stringify(params))
             return await resp.json() as BoardResponse
         }
-    }
-}
-
-export namespace board_columns {
-    export interface BoardColumnDto {
-        id: string
-        name: string
-        boardId: string
-        createdAt: string
-        updatedAt: string | null
-    }
-
-    export interface BoardColumnResponse {
-        success?: boolean
-        message?: string
-        result?: BoardColumnDto | BoardColumnDto[]
-    }
-
-    export interface CreateBoardColumnDto {
-        name: string
-        boardId: string
-    }
-
-    export interface CreateBoardColumnRequest {
-        name: string
-        boardId: string
-    }
-
-    export interface CreateManyBoardColumnsRequest {
-        boardColumns: CreateBoardColumnDto[]
-    }
-
-    export interface UpdateBoardColumnDto {
-        name?: string
-    }
-
-    export interface UpdateBoardColumnRequest {
-        data: UpdateBoardColumnDto
     }
 }
 
