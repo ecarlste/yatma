@@ -33,8 +33,3 @@ export type UpdateBoardColumnRequest = BoardColumnId & {
 };
 
 export type DeleteBoardColumnRequest = Pick<BoardColumnDto, "id">;
-
-export const boardColumnNotFoundResponse: BoardColumnResponse = {
-  success: false,
-  message: "BoardColumn not found",
-};

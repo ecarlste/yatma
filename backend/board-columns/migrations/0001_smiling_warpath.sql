@@ -1,0 +1,1 @@
+ALTER TABLE "board_columns" ADD CONSTRAINT "unique_board_id_name" UNIQUE("board_id","name");

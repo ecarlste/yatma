@@ -1,7 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "./board-column.db";
 import {
-  boardColumnNotFoundResponse,
   BoardColumnResponse,
   CreateBoardColumnDto,
   UpdateBoardColumnDto,
@@ -9,38 +8,36 @@ import {
 import { boardColumnsTable } from "./board-column.schema";
 import { boards } from "~encore/clients";
 import { APIError, ErrCode } from "encore.dev/api";
+import { executeQuery } from "../lib/db-utils";
 
 const BoardColumnService = {
   create: async (
     boardColumn: CreateBoardColumnDto
   ): Promise<BoardColumnResponse> => {
     const board = await boards.readOne({ id: boardColumn.boardId });
-
     if (!board.success) {
       throw new APIError(
         ErrCode.NotFound,
-        "Board with specified boardId not found"
+        `Board with ID '${boardColumn.boardId}' not found`
       );
     }
 
-    const [createdBoardColumn] = await db
-      .insert(boardColumnsTable)
-      .values(boardColumn)
-      .returning();
-
-    return {
-      success: true,
-      result: createdBoardColumn,
-    };
+    const [createdBoardColumn] = await executeQuery(
+      db.insert(boardColumnsTable).values(boardColumn).returning(),
+      "create board column",
+      `A column with name '${boardColumn.name}' already exists for board '${boardColumn.boardId}'`
+    );
+    return { success: true, result: createdBoardColumn };
   },
 
   createMany: async (
     boardColumns: CreateBoardColumnDto[]
   ): Promise<BoardColumnResponse> => {
-    const createdBoardColumns = await db
-      .insert(boardColumnsTable)
-      .values(boardColumns)
-      .returning();
+    const createdBoardColumns = await executeQuery(
+      db.insert(boardColumnsTable).values(boardColumns).returning(),
+      "create multiple board columns",
+      "One or more columns already exist with the given names for their boards"
+    );
 
     return {
       success: true,
@@ -81,14 +78,18 @@ const BoardColumnService = {
     id: string,
     data: UpdateBoardColumnDto
   ): Promise<BoardColumnResponse> => {
-    const [updatedBoardColumn] = await db
-      .update(boardColumnsTable)
-      .set(data)
-      .where(eq(boardColumnsTable.id, id))
-      .returning();
+    const [updatedBoardColumn] = await executeQuery(
+      db
+        .update(boardColumnsTable)
+        .set(data)
+        .where(eq(boardColumnsTable.id, id))
+        .returning(),
+      "update board column",
+      `A column with name '${data.name}' already exists for this board`
+    );
 
     if (!updatedBoardColumn) {
-      return boardColumnNotFoundResponse;
+      throw APIError.notFound(`Board column with ID '${id}' not found`);
     }
 
     return {
@@ -98,13 +99,16 @@ const BoardColumnService = {
   },
 
   delete: async (id: string): Promise<BoardColumnResponse> => {
-    const [deletedBoardColumn] = await db
-      .delete(boardColumnsTable)
-      .where(eq(boardColumnsTable.id, id))
-      .returning();
+    const [deletedBoardColumn] = await executeQuery(
+      db
+        .delete(boardColumnsTable)
+        .where(eq(boardColumnsTable.id, id))
+        .returning(),
+      "delete board column"
+    );
 
     if (!deletedBoardColumn) {
-      return boardColumnNotFoundResponse;
+      throw APIError.notFound(`Board column with ID '${id}' not found`);
     }
 
     return {
