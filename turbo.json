@@ -25,6 +25,10 @@
     "db:gen": {
       "dependsOn": [],
       "outputs": []
+    },
+    "client:gen": {
+      "dependsOn": [],
+      "outputs": []
     }
   }
 }

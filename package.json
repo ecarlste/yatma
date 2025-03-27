@@ -11,7 +11,8 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "check": "turbo run check",
-    "db:gen": "turbo run db:gen"
+    "db:gen": "turbo run db:gen",
+    "client:gen": "turbo run client:gen"
   },
   "packageManager": "pnpm@10.7.0",
   "devDependencies": {
