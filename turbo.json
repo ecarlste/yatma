@@ -21,6 +21,10 @@
     },
     "format:write": {
       "outputs": []
+    },
+    "db:gen": {
+      "dependsOn": [],
+      "outputs": []
     }
   }
 }

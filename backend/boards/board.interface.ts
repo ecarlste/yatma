@@ -25,3 +25,8 @@ export type UpdateBoardRequest = BoardId & {
 };
 
 export type DeleteBoardRequest = Pick<BoardDto, "id">;
+
+export const boardNotFoundResponse = {
+  success: false,
+  message: "Board not found",
+};

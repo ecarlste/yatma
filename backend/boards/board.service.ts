@@ -1,16 +1,12 @@
 import { eq } from "drizzle-orm";
 import { db } from "./board.db";
 import {
+  boardNotFoundResponse,
   BoardResponse,
   CreateBoardDto,
   UpdateBoardDto,
 } from "./board.interface";
 import { boardsTable } from "./board.schema";
-
-const boardNotFoundResponse = {
-  success: false,
-  message: "Board not found",
-};
 
 const BoardService = {
   create: async (board: CreateBoardDto): Promise<BoardResponse> => {

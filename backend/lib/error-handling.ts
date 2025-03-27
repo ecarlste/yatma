@@ -8,6 +8,10 @@ export const withErrorHandling = <T, Args extends any[]>(
     try {
       return await fn(...args);
     } catch (error: unknown) {
+      if (error instanceof APIError) {
+        throw error;
+      }
+
       const message = error instanceof Error ? error.message : "Unknown error";
       throw APIError.aborted(
         `Error ${operation}: ${message}`,
