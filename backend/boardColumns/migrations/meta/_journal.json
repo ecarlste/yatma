@@ -15,6 +15,13 @@
       "when": 1743088447450,
       "tag": "0001_smiling_warpath",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1743180261345,
+      "tag": "0002_bored_nightshade",
+      "breakpoints": true
     }
   ]
 }

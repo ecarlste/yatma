@@ -1,5 +1,12 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, timestamp, unique, uuid } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  timestamp,
+  unique,
+  uuid,
+  integer,
+} from "drizzle-orm/pg-core";
 
 export const boardColumnsTable = pgTable(
   "board_columns",
@@ -7,6 +14,7 @@ export const boardColumnsTable = pgTable(
     id: uuid("id").primaryKey().defaultRandom(),
     name: text("name").notNull(),
     boardId: uuid("board_id").notNull(),
+    sortIndex: integer("sort_index").notNull().default(0),
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),

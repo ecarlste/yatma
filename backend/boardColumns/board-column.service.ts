@@ -28,6 +28,7 @@ const BoardColumnService = {
       "create board column",
       `A column with name '${boardColumn.name}' already exists for board '${boardColumn.boardId}'`
     );
+
     return { success: true, result: createdBoardColumn };
   },
 
@@ -52,7 +53,11 @@ const BoardColumnService = {
           .select()
           .from(boardColumnsTable)
           .where(eq(boardColumnsTable.boardId, boardId))
-      : db.select().from(boardColumnsTable);
+          .orderBy(boardColumnsTable.sortIndex)
+      : db
+          .select()
+          .from(boardColumnsTable)
+          .orderBy(boardColumnsTable.boardId, boardColumnsTable.sortIndex);
     const boardColumns = await query;
 
     return {

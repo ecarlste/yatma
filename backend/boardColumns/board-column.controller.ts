@@ -38,9 +38,12 @@ export const read = api<ReadBoardColumnsRequest, BoardColumnListResponse>(
 
 export const readOne = api<ReadOneBoardColumnRequest, BoardColumnResponse>(
   { auth: true, expose: true, path: "/boardColumns/:id", method: "GET" },
-  withErrorHandling("reading boardColumn", async (req) => {
-    return await BoardColumnService.findOne(req.id);
-  })
+  withErrorHandling(
+    "reading boardColumn",
+    async (req): Promise<BoardColumnResponse> => {
+      return await BoardColumnService.findOne(req.id);
+    }
+  )
 );
 
 export const update = api<UpdateBoardColumnRequest, BoardColumnResponse>(

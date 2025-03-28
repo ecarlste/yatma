@@ -2,6 +2,7 @@ export type BoardColumnDto = {
   id: string;
   name: string;
   boardId: string;
+  sortIndex: number;
   createdAt: Date;
   updatedAt: Date | null;
 };

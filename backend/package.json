@@ -10,9 +10,9 @@
     "test": "echo \"No tests yet...\"",
     "db:gen": "pnpm run db:gen:boards && pnpm run db:gen:columns",
     "db:gen:boards": "drizzle-kit generate --config=boards/drizzle.config.ts",
-    "db:gen:columns": "drizzle-kit generate --config=board-columns/drizzle.config.ts",
+    "db:gen:columns": "drizzle-kit generate --config=boardColumns/drizzle.config.ts",
     "db:studio:boards": "drizzle-kit studio --config=boards/drizzle-studio.config.ts",
-    "db:studio:columns": "drizzle-kit studio --config=board-columns/drizzle-studio.config.ts",
+    "db:studio:columns": "drizzle-kit studio --config=boardColumns/drizzle-studio.config.ts",
     "client:gen": "encore gen client --env=local --output=../frontend/src/server/generated/encore-backend-client.ts"
   },
   "devDependencies": {
