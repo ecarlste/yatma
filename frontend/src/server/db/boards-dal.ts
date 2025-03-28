@@ -1,10 +1,9 @@
-import { type BoardColumn, type Task, type Subtask } from "~/lib/types";
-import { createColumns } from "./data/columns";
+import { type Task, type Subtask } from "~/lib/types";
 import { createTasks } from "./data/tasks";
 import { createSubtasks } from "./data/subtasks";
 import { readAllBoards, readBoardWithId } from "../dto/boards-dto";
+import { readBoardColumnsWithBoardId } from "../dto/board-columns-dto";
 
-const columns: BoardColumn[] = createColumns();
 const tasks: Task[] = createTasks();
 const subtasks: Subtask[] = createSubtasks();
 
@@ -20,21 +19,8 @@ export function getBoardById(boardId: string) {
 
 // Columns
 
-export function getColumnByTaskId(taskId: string) {
-  const task = getTaskById(taskId);
-
-  const column = columns.find((column) => column.id === task.columnId);
-  if (!column) {
-    const errorMessage = `Column with ID ${task.columnId} not found.`;
-    console.error(errorMessage);
-    throw new Error(errorMessage);
-  }
-
-  return column;
-}
-
 export function getColumnsByBoardId(boardId: string) {
-  return columns.filter((column) => column.boardId === boardId);
+  return readBoardColumnsWithBoardId(boardId);
 }
 
 // Tasks

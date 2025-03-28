@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "./board-column.db";
 import {
+  BoardColumnListResponse,
   BoardColumnResponse,
   CreateBoardColumnDto,
   UpdateBoardColumnDto,
@@ -32,7 +33,7 @@ const BoardColumnService = {
 
   createMany: async (
     boardColumns: CreateBoardColumnDto[]
-  ): Promise<BoardColumnResponse> => {
+  ): Promise<BoardColumnListResponse> => {
     const createdBoardColumns = await executeQuery(
       db.insert(boardColumnsTable).values(boardColumns).returning(),
       "create multiple board columns",
@@ -45,8 +46,14 @@ const BoardColumnService = {
     };
   },
 
-  find: async (): Promise<BoardColumnResponse> => {
-    const boardColumns = await db.select().from(boardColumnsTable);
+  find: async (boardId?: string): Promise<BoardColumnListResponse> => {
+    const query = boardId
+      ? db
+          .select()
+          .from(boardColumnsTable)
+          .where(eq(boardColumnsTable.boardId, boardId))
+      : db.select().from(boardColumnsTable);
+    const boardColumns = await query;
 
     return {
       success: true,

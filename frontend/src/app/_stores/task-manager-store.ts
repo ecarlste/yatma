@@ -1,28 +1,21 @@
 import { createStore } from "zustand/vanilla";
-import { type Task } from "~/lib/types";
 
 export type TaskManagerState = {
-  activeBoardId: string | null;
-  viewedTask: Task | null;
+  isSidebarOpen: boolean;
 };
 
 export type TaskManagerActions = {
-  setActiveBoard: (boardId: string) => void;
-  setViewedTask: (task: Task | null) => void;
+  setIsSidebarOpen: (isOpen: boolean) => void;
 };
 
 export const initTaskManagerStore = () => {
-  return {
-    activeBoardId: null,
-    viewedTask: null,
-  };
+  return defaultInitState;
 };
 
 export type TaskManagerStore = TaskManagerState & TaskManagerActions;
 
 export const defaultInitState: TaskManagerState = {
-  activeBoardId: null,
-  viewedTask: null,
+  isSidebarOpen: true,
 };
 
 export const createTaskManagerStore = (
@@ -30,13 +23,9 @@ export const createTaskManagerStore = (
 ) => {
   return createStore<TaskManagerStore>()((set) => ({
     ...initState,
-    setActiveBoard: (boardId) =>
+    setIsSidebarOpen: (isOpen) =>
       set(() => ({
-        activeBoardId: boardId,
-      })),
-    setViewedTask: (task) =>
-      set(() => ({
-        viewedTask: task,
+        isSidebarOpen: isOpen,
       })),
   }));
 };

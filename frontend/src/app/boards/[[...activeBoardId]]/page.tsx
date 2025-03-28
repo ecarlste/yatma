@@ -16,21 +16,17 @@ export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
   const activeBoard = boards.find((board) => board.id === activeBoardId);
 
   const activeBoardColumns = activeBoard
-    ? getColumnsByBoardId(activeBoard.id)
+    ? await getColumnsByBoardId(activeBoard.id)
     : undefined;
 
-  const isSidebarOpen = true;
+  const isBoardEmpty = activeBoardColumns && activeBoardColumns.length === 0;
 
   return (
     <main className="relative flex min-h-lvh w-full">
       <div className="flex min-h-lvh w-full flex-col">
-        <Header isSidebarOpen={isSidebarOpen} board={activeBoard} />
+        <Header board={activeBoard} isBoardEmpty={isBoardEmpty} />
         <div className="flex flex-1">
-          <Sidebar
-            isSidebarOpen={isSidebarOpen}
-            boards={boards}
-            activeBoardId={activeBoardId}
-          />
+          <Sidebar boards={boards} activeBoardId={activeBoardId} />
           <TaskBoard columns={activeBoardColumns} />
         </div>
       </div>

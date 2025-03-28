@@ -84,10 +84,16 @@ export namespace boardColumns {
         updatedAt: string | null
     }
 
+    export interface BoardColumnListResponse {
+        success?: boolean
+        message?: string
+        result: BoardColumnDto[]
+    }
+
     export interface BoardColumnResponse {
         success?: boolean
         message?: string
-        result?: BoardColumnDto | BoardColumnDto[]
+        result?: BoardColumnDto
     }
 
     export interface CreateBoardColumnDto {
@@ -102,6 +108,10 @@ export namespace boardColumns {
 
     export interface CreateManyBoardColumnsRequest {
         boardColumns: CreateBoardColumnDto[]
+    }
+
+    export interface ReadBoardColumnsRequest {
+        boardId?: string
     }
 
     export interface UpdateBoardColumnDto {
@@ -125,10 +135,10 @@ export namespace boardColumns {
             return await resp.json() as BoardColumnResponse
         }
 
-        public async createMany(params: CreateManyBoardColumnsRequest): Promise<BoardColumnResponse> {
+        public async createMany(params: CreateManyBoardColumnsRequest): Promise<BoardColumnListResponse> {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI("POST", `/boardColumns/bulk`, JSON.stringify(params))
-            return await resp.json() as BoardColumnResponse
+            return await resp.json() as BoardColumnListResponse
         }
 
         public async destroy(id: string): Promise<BoardColumnResponse> {
@@ -137,10 +147,15 @@ export namespace boardColumns {
             return await resp.json() as BoardColumnResponse
         }
 
-        public async read(): Promise<BoardColumnResponse> {
+        public async read(params: ReadBoardColumnsRequest): Promise<BoardColumnListResponse> {
+            // Convert our params into the objects we need for the request
+            const query = makeRecord<string, string | string[]>({
+                boardId: params.boardId,
+            })
+
             // Now make the actual call to the API
-            const resp = await this.baseClient.callTypedAPI("GET", `/boardColumns`)
-            return await resp.json() as BoardColumnResponse
+            const resp = await this.baseClient.callTypedAPI("GET", `/boardColumns`, undefined, {query})
+            return await resp.json() as BoardColumnListResponse
         }
 
         public async readOne(id: string): Promise<BoardColumnResponse> {

@@ -9,9 +9,16 @@ export type BoardColumnDto = {
 export type BoardColumnResponse = {
   success?: boolean;
   message?: string;
-  result?: BoardColumnDto | BoardColumnDto[];
+  result?: BoardColumnDto;
 };
 
+export type BoardColumnListResponse = {
+  success?: boolean;
+  message?: string;
+  result: BoardColumnDto[];
+};
+
+type BoardId = Pick<BoardColumnDto, "boardId">;
 type BoardColumnId = Pick<BoardColumnDto, "id">;
 
 export type CreateBoardColumnDto = Omit<
@@ -23,6 +30,7 @@ export type CreateManyBoardColumnsRequest = {
   boardColumns: CreateBoardColumnDto[];
 };
 
+export type ReadBoardColumnsRequest = Partial<BoardId>;
 export type ReadOneBoardColumnRequest = BoardColumnId;
 
 export type UpdateBoardColumnDto = Partial<

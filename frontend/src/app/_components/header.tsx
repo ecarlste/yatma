@@ -1,20 +1,19 @@
+"use client";
+
 import Image, { type StaticImageData } from "next/image";
 
 import logoDark from "~/../public/images/logo-dark.svg";
-import { getColumnsByBoardId } from "~/server/db/boards-dal";
 import ActiveBoardControls from "./active-board-controls";
 import { type Board } from "~/lib/types";
+import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
 
 type HeaderProps = {
-  isSidebarOpen: boolean;
   board?: Board;
+  isBoardEmpty?: boolean;
 };
 
-export default async function Header({ isSidebarOpen, board }: HeaderProps) {
-  let isBoardEmpty = true;
-  if (board) {
-    isBoardEmpty = getColumnsByBoardId(board.id).length === 0;
-  }
+export default function Header({ board, isBoardEmpty = true }: HeaderProps) {
+  const { isSidebarOpen } = useTaskManagerStore((state) => state);
 
   return (
     <header className="flex h-24 w-full items-center justify-between bg-white">

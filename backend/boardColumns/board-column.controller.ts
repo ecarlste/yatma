@@ -2,10 +2,12 @@ import { api } from "encore.dev/api";
 import { withErrorHandling } from "../lib/error-handling";
 import BoardColumnService from "./board-column.service";
 import {
+  BoardColumnListResponse,
   BoardColumnResponse,
   CreateBoardColumnRequest,
   CreateManyBoardColumnsRequest,
   DeleteBoardColumnRequest,
+  ReadBoardColumnsRequest,
   ReadOneBoardColumnRequest,
   UpdateBoardColumnRequest,
 } from "./board-column.interface";
@@ -19,7 +21,7 @@ export const create = api<CreateBoardColumnRequest, BoardColumnResponse>(
 
 export const createMany = api<
   CreateManyBoardColumnsRequest,
-  BoardColumnResponse
+  BoardColumnListResponse
 >(
   { auth: true, expose: true, path: "/boardColumns/bulk", method: "POST" },
   withErrorHandling("creating boardColumns", async (req) => {
@@ -27,10 +29,10 @@ export const createMany = api<
   })
 );
 
-export const read = api<void, BoardColumnResponse>(
+export const read = api<ReadBoardColumnsRequest, BoardColumnListResponse>(
   { auth: true, expose: true, path: "/boardColumns", method: "GET" },
-  withErrorHandling("reading boardColumns", async () => {
-    return await BoardColumnService.find();
+  withErrorHandling("reading boardColumns", async ({ boardId }) => {
+    return await BoardColumnService.find(boardId);
   })
 );
 
