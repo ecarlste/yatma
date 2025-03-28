@@ -24,8 +24,10 @@ type BoardColumnId = Pick<BoardColumnDto, "id">;
 
 export type CreateBoardColumnDto = Omit<
   BoardColumnDto,
-  "id" | "createdAt" | "updatedAt"
->;
+  "id" | "sortIndex" | "createdAt" | "updatedAt"
+> & {
+  sortIndex?: number;
+};
 export type CreateBoardColumnRequest = CreateBoardColumnDto;
 export type CreateManyBoardColumnsRequest = {
   boardColumns: CreateBoardColumnDto[];

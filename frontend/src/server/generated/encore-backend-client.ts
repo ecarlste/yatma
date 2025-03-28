@@ -80,6 +80,7 @@ export namespace boardColumns {
         id: string
         name: string
         boardId: string
+        sortIndex: number
         createdAt: string
         updatedAt: string | null
     }
@@ -99,11 +100,13 @@ export namespace boardColumns {
     export interface CreateBoardColumnDto {
         name: string
         boardId: string
+        sortIndex?: number
     }
 
     export interface CreateBoardColumnRequest {
         name: string
         boardId: string
+        sortIndex?: number
     }
 
     export interface CreateManyBoardColumnsRequest {
@@ -116,6 +119,7 @@ export namespace boardColumns {
 
     export interface UpdateBoardColumnDto {
         name?: string
+        sortIndex?: number
     }
 
     export interface UpdateBoardColumnRequest {
