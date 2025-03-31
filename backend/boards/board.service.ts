@@ -2,7 +2,6 @@ import { eq } from "drizzle-orm";
 import { db } from "./board.db";
 import {
   BoardListResponse,
-  boardNotFoundResponse,
   BoardResponse,
   CreateBoardDto,
   UpdateBoardDto,
@@ -10,6 +9,7 @@ import {
 import { boardsTable } from "./board.schema";
 import { executeQuery } from "../lib/db-utils";
 import { APIError, ErrCode } from "encore.dev/api";
+import { BoardNotFoundError } from "../lib/error-types";
 
 const BoardService = {
   create: async (board: CreateBoardDto): Promise<BoardResponse> => {
@@ -57,7 +57,7 @@ const BoardService = {
     );
 
     if (!board) {
-      throw new APIError(ErrCode.NotFound, `Board with id '${id}' not found`);
+      throw BoardNotFoundError(id);
     }
 
     return {
@@ -78,7 +78,7 @@ const BoardService = {
     );
 
     if (!updatedBoard) {
-      throw new APIError(ErrCode.NotFound, `Board with id '${id}' not found`);
+      throw BoardNotFoundError(id);
     }
 
     return {
@@ -94,7 +94,7 @@ const BoardService = {
     );
 
     if (!deletedBoard) {
-      throw new APIError(ErrCode.NotFound, `Board with id '${id}' not found`);
+      throw BoardNotFoundError(id);
     }
 
     return {
