@@ -81,7 +81,7 @@ const BoardColumnService = {
           .select()
           .from(boardColumnsTable)
           .orderBy(boardColumnsTable.boardId, boardColumnsTable.sortIndex);
-    const boardColumns = await query;
+    const boardColumns = await executeQuery(query, "find board columns");
 
     return {
       success: true,
@@ -90,11 +90,14 @@ const BoardColumnService = {
   },
 
   findOne: async (id: string): Promise<BoardColumnResponse> => {
-    const [boardColumn] = await db
-      .select()
-      .from(boardColumnsTable)
-      .where(eq(boardColumnsTable.id, id))
-      .limit(1);
+    const [boardColumn] = await executeQuery(
+      db
+        .select()
+        .from(boardColumnsTable)
+        .where(eq(boardColumnsTable.id, id))
+        .limit(1),
+      "find one board column"
+    );
 
     if (!boardColumn) {
       throw new APIError(
