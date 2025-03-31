@@ -2,6 +2,7 @@ import { api } from "encore.dev/api";
 import { withErrorHandling } from "../lib/error-handling";
 import BoardService from "./board.service";
 import {
+  BoardListResponse,
   BoardResponse,
   CreateBoardRequest,
   CreateManyBoardsRequest,
@@ -17,14 +18,14 @@ export const create = api<CreateBoardRequest, BoardResponse>(
   })
 );
 
-export const createMany = api<CreateManyBoardsRequest, BoardResponse>(
+export const createMany = api<CreateManyBoardsRequest, BoardListResponse>(
   { auth: true, expose: true, path: "/boards/bulk", method: "POST" },
   withErrorHandling("creating boards", async (req) => {
     return await BoardService.createMany(req.boards);
   })
 );
 
-export const read = api<void, BoardResponse>(
+export const read = api<void, BoardListResponse>(
   { auth: true, expose: true, path: "/boards", method: "GET" },
   withErrorHandling("reading boards", async () => {
     return await BoardService.find();

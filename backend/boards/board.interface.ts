@@ -8,7 +8,13 @@ export type BoardDto = {
 export type BoardResponse = {
   success?: boolean;
   message?: string;
-  result?: BoardDto | BoardDto[];
+  result?: BoardDto;
+};
+
+export type BoardListResponse = {
+  success?: boolean;
+  message?: string;
+  result: BoardDto[];
 };
 
 type BoardId = Pick<BoardDto, "id">;

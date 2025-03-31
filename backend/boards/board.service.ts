@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "./board.db";
 import {
+  BoardListResponse,
   boardNotFoundResponse,
   BoardResponse,
   CreateBoardDto,
@@ -21,7 +22,7 @@ const BoardService = {
     };
   },
 
-  createMany: async (boards: CreateBoardDto[]): Promise<BoardResponse> => {
+  createMany: async (boards: CreateBoardDto[]): Promise<BoardListResponse> => {
     const createdBoards = await db
       .insert(boardsTable)
       .values(boards)
@@ -33,7 +34,7 @@ const BoardService = {
     };
   },
 
-  find: async (): Promise<BoardResponse> => {
+  find: async (): Promise<BoardListResponse> => {
     const boards = await db.select().from(boardsTable);
 
     return {
