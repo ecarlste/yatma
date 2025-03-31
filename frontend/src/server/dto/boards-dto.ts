@@ -1,6 +1,5 @@
 import "server-only";
 import getBoardsClient from "../clients/get-encore-backend-client";
-import { type boards } from "../generated/encore-backend-client";
 
 const client = getBoardsClient();
 
@@ -13,7 +12,7 @@ export async function readBoardWithId(boardId: string) {
     );
   }
 
-  return board.result as boards.BoardDto;
+  return board.result;
 }
 
 export async function readAllBoards() {
@@ -23,5 +22,5 @@ export async function readAllBoards() {
     throw new Error("Failed to read boards from Encore backend");
   }
 
-  return boards.result as boards.BoardDto[];
+  return boards.result;
 }
