@@ -1,7 +1,7 @@
 import "server-only";
-import getBoardsClient from "../clients/get-encore-backend-client";
+import getEncoreBackendClient from "../clients/get-encore-backend-client";
 
-const client = getBoardsClient();
+const client = getEncoreBackendClient();
 
 export async function readBoardWithId(boardId: string) {
   const board = await client.boards.readOne(boardId);

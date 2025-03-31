@@ -1,7 +1,7 @@
 import { env } from "~/env";
 import Client, { Environment, Local } from "../generated/encore-backend-client";
 
-const getBoardsClient = () => {
+const getEncoreBackendClient = () => {
   const targetEnv =
     process.env.NODE_ENV === "development" ? Local : Environment("prod");
 
@@ -12,4 +12,4 @@ const getBoardsClient = () => {
   });
 };
 
-export default getBoardsClient;
+export default getEncoreBackendClient;

@@ -1,8 +1,8 @@
 import "server-only";
-import getBoardsClient from "../clients/get-encore-backend-client";
+import getEncoreBackendClient from "../clients/get-encore-backend-client";
 import { type BoardColumn } from "~/lib/types";
 
-const client = getBoardsClient();
+const client = getEncoreBackendClient();
 
 export async function readBoardColumnsWithBoardId(
   boardId: string,
