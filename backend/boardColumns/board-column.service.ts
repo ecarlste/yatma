@@ -35,6 +35,29 @@ const BoardColumnService = {
   createMany: async (
     boardColumns: CreateBoardColumnDto[]
   ): Promise<BoardColumnListResponse> => {
+    if (boardColumns.length === 0) {
+      return { success: true, result: [] };
+    }
+
+    const boardId = boardColumns[0].boardId;
+    const mismatched = boardColumns.some(
+      (column) => column.boardId !== boardId
+    );
+    if (mismatched) {
+      throw new APIError(
+        ErrCode.InvalidArgument,
+        "All columns must belong to the same board"
+      );
+    }
+
+    const board = await boards.readOne({ id: boardId });
+    if (!board.success) {
+      throw new APIError(
+        ErrCode.NotFound,
+        `Board with ID '${boardId}' not found`
+      );
+    }
+
     const createdBoardColumns = await executeQuery(
       db.insert(boardColumnsTable).values(boardColumns).returning(),
       "create multiple board columns",
