@@ -1,5 +1,9 @@
 import { APIError, ErrCode } from "encore.dev/api";
-import { DbError, uniqueViolationErrorCode } from "./error-types";
+import {
+  DbError,
+  foreignKeyViolationErrorCode,
+  uniqueViolationErrorCode,
+} from "./error-types";
 
 export async function executeQuery<T>(
   query: Promise<T>,
@@ -9,15 +13,34 @@ export async function executeQuery<T>(
   try {
     return await query;
   } catch (err: unknown) {
-    if (
-      duplicateMessage &&
-      err instanceof Error &&
-      (err as DbError).code === uniqueViolationErrorCode
-    ) {
-      throw new APIError(ErrCode.AlreadyExists, duplicateMessage);
+    if (!(err instanceof Error)) {
+      throw APIError.internal(
+        `Failed to ${operation}: Unknown error`,
+        new Error("Unknown error")
+      );
     }
 
-    const error = err instanceof Error ? err : new Error("Unknown error");
-    throw APIError.internal(`Failed to ${operation}: ${error.message}`, error);
+    const dbErr = err as DbError;
+    switch (dbErr.code) {
+      case uniqueViolationErrorCode:
+        if (duplicateMessage) {
+          throw new APIError(ErrCode.AlreadyExists, duplicateMessage);
+        }
+        break;
+      case foreignKeyViolationErrorCode:
+        throw new APIError(
+          ErrCode.InvalidArgument,
+          `Invalid reference in ${operation}: ${dbErr.message
+            .split("DETAIL:")[0]
+            .trim()}`
+        );
+      default:
+        throw APIError.internal(
+          `Failed to ${operation}: ${dbErr.message}`,
+          dbErr
+        );
+    }
+
+    throw APIError.internal(`Failed to ${operation}: ${dbErr.message}`, dbErr);
   }
 }

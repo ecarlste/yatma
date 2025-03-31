@@ -8,6 +8,7 @@ import {
   DeleteTaskRequest,
   ReadOneTaskRequest,
   UpdateTaskRequest,
+  TaskListResponse,
 } from "./task.interface";
 
 export const create = api<CreateTaskRequest, TaskResponse>(
@@ -17,14 +18,14 @@ export const create = api<CreateTaskRequest, TaskResponse>(
   })
 );
 
-export const createMany = api<CreateManyTasksRequest, TaskResponse>(
+export const createMany = api<CreateManyTasksRequest, TaskListResponse>(
   { auth: true, expose: true, path: "/tasks/bulk", method: "POST" },
   withErrorHandling("creating tasks", async (req) => {
     return await TaskService.createMany(req.tasks);
   })
 );
 
-export const read = api<void, TaskResponse>(
+export const read = api<void, TaskListResponse>(
   { auth: true, expose: true, path: "/tasks", method: "GET" },
   withErrorHandling("reading tasks", async () => {
     return await TaskService.find();

@@ -10,7 +10,13 @@ export type TaskDto = {
 export type TaskResponse = {
   success?: boolean;
   message?: string;
-  result?: TaskDto | TaskDto[];
+  result?: TaskDto;
+};
+
+export type TaskListResponse = {
+  success?: boolean;
+  message?: string;
+  result: TaskDto[];
 };
 
 type TaskId = Pick<TaskDto, "id">;
@@ -27,8 +33,3 @@ export type UpdateTaskRequest = TaskId & {
 };
 
 export type DeleteTaskRequest = Pick<TaskDto, "id">;
-
-export const taskNotFoundResponse = {
-  success: false,
-  message: "Board not found",
-};
