@@ -10,12 +10,13 @@ import { tasksTable } from "./task.schema";
 import { boardColumns } from "~encore/clients";
 import { APIError } from "encore.dev/api";
 import { executeQuery } from "../lib/db-utils";
+import { ColumnNotFoundError, TaskNotFoundError } from "../lib/error-types";
 
 const TaskService = {
   create: async (task: CreateTaskDto): Promise<TaskResponse> => {
     const column = await boardColumns.readOne({ id: task.columnId });
     if (!column.success) {
-      throw APIError.notFound(`Column with ID '${task.columnId}' not found`);
+      throw ColumnNotFoundError(task.columnId);
     }
 
     const [createdTask] = await executeQuery(
@@ -44,7 +45,7 @@ const TaskService = {
 
     const column = await boardColumns.readOne({ id: columnId });
     if (!column.success) {
-      throw APIError.notFound(`Column with ID '${columnId}' not found`);
+      throw ColumnNotFoundError(columnId);
     }
 
     const createdTasks = await executeQuery(
@@ -58,11 +59,11 @@ const TaskService = {
     };
   },
 
-  find: async (): Promise<TaskListResponse> => {
-    const tasks = await executeQuery(
-      db.select().from(tasksTable),
-      "find tasks"
-    );
+  find: async (columnId?: string): Promise<TaskListResponse> => {
+    const query = columnId
+      ? db.select().from(tasksTable).where(eq(tasksTable.columnId, columnId))
+      : db.select().from(tasksTable);
+    const tasks = await executeQuery(query, "find tasks");
 
     return {
       success: true,
@@ -77,7 +78,7 @@ const TaskService = {
     );
 
     if (!task) {
-      throw APIError.notFound(`Task with ID '${id}' not found`);
+      throw TaskNotFoundError(id);
     }
 
     return {
@@ -90,7 +91,7 @@ const TaskService = {
     if (data.columnId) {
       const column = await boardColumns.readOne({ id: data.columnId });
       if (!column.success) {
-        throw APIError.notFound(`Column with ID '${data.columnId}' not found`);
+        throw ColumnNotFoundError(data.columnId);
       }
     }
 
@@ -100,7 +101,7 @@ const TaskService = {
     );
 
     if (!updatedTask) {
-      throw APIError.notFound(`Task with ID '${id}' not found`);
+      throw TaskNotFoundError(id);
     }
 
     return {
@@ -116,7 +117,7 @@ const TaskService = {
     );
 
     if (!deletedTask) {
-      throw APIError.notFound(`Task with ID '${id}' not found`);
+      throw TaskNotFoundError(id);
     }
 
     return {

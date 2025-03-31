@@ -9,6 +9,7 @@ import {
   ReadOneTaskRequest,
   UpdateTaskRequest,
   TaskListResponse,
+  ReadTasksRequest,
 } from "./task.interface";
 
 export const create = api<CreateTaskRequest, TaskResponse>(
@@ -25,10 +26,10 @@ export const createMany = api<CreateManyTasksRequest, TaskListResponse>(
   })
 );
 
-export const read = api<void, TaskListResponse>(
+export const read = api<ReadTasksRequest, TaskListResponse>(
   { auth: true, expose: true, path: "/tasks", method: "GET" },
-  withErrorHandling("reading tasks", async () => {
-    return await TaskService.find();
+  withErrorHandling("reading tasks", async (req) => {
+    return await TaskService.find(req.columnId);
   })
 );
 

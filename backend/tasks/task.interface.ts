@@ -20,11 +20,13 @@ export type TaskListResponse = {
 };
 
 type TaskId = Pick<TaskDto, "id">;
+type ColumnId = Pick<TaskDto, "columnId">;
 
 export type CreateTaskDto = Omit<TaskDto, "id" | "createdAt" | "updatedAt">;
 export type CreateTaskRequest = CreateTaskDto;
 export type CreateManyTasksRequest = { tasks: CreateTaskDto[] };
 
+export type ReadTasksRequest = Partial<ColumnId>;
 export type ReadOneTaskRequest = TaskId;
 
 export type UpdateTaskDto = Partial<CreateTaskDto>;
