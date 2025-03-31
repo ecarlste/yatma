@@ -87,6 +87,13 @@ const TaskService = {
   },
 
   update: async (id: string, data: UpdateTaskDto): Promise<TaskResponse> => {
+    if (data.columnId) {
+      const column = await boardColumns.readOne({ id: data.columnId });
+      if (!column.success) {
+        throw APIError.notFound(`Column with ID '${data.columnId}' not found`);
+      }
+    }
+
     const [updatedTask] = await executeQuery(
       db.update(tasksTable).set(data).where(eq(tasksTable.id, id)).returning(),
       "update task"
