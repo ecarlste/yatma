@@ -32,6 +32,7 @@ export function PreviewEnv(pr: number | string): BaseURL {
 export default class Client {
     public readonly boardColumns: boardColumns.ServiceClient
     public readonly boards: boards.ServiceClient
+    public readonly tasks: tasks.ServiceClient
 
 
     /**
@@ -44,6 +45,7 @@ export default class Client {
         const base = new BaseClient(target, options ?? {})
         this.boardColumns = new boardColumns.ServiceClient(base)
         this.boards = new boards.ServiceClient(base)
+        this.tasks = new tasks.ServiceClient(base)
     }
 }
 
@@ -184,10 +186,16 @@ export namespace boards {
         updatedAt: string | null
     }
 
+    export interface BoardListResponse {
+        success?: boolean
+        message?: string
+        result: BoardDto[]
+    }
+
     export interface BoardResponse {
         success?: boolean
         message?: string
-        result?: BoardDto | BoardDto[]
+        result?: BoardDto
     }
 
     export interface CreateBoardDto {
@@ -223,10 +231,10 @@ export namespace boards {
             return await resp.json() as BoardResponse
         }
 
-        public async createMany(params: CreateManyBoardsRequest): Promise<BoardResponse> {
+        public async createMany(params: CreateManyBoardsRequest): Promise<BoardListResponse> {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI("POST", `/boards/bulk`, JSON.stringify(params))
-            return await resp.json() as BoardResponse
+            return await resp.json() as BoardListResponse
         }
 
         public async destroy(id: string): Promise<BoardResponse> {
@@ -235,10 +243,10 @@ export namespace boards {
             return await resp.json() as BoardResponse
         }
 
-        public async read(): Promise<BoardResponse> {
+        public async read(): Promise<BoardListResponse> {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI("GET", `/boards`)
-            return await resp.json() as BoardResponse
+            return await resp.json() as BoardListResponse
         }
 
         public async readOne(id: string): Promise<BoardResponse> {
@@ -251,6 +259,108 @@ export namespace boards {
             // Now make the actual call to the API
             const resp = await this.baseClient.callTypedAPI("PUT", `/boards/${encodeURIComponent(id)}`, JSON.stringify(params))
             return await resp.json() as BoardResponse
+        }
+    }
+}
+
+export namespace tasks {
+    export interface CreateManyTasksRequest {
+        tasks: CreateTaskDto[]
+    }
+
+    export interface CreateTaskDto {
+        title: string
+        description: string
+        columnId: string
+    }
+
+    export interface CreateTaskRequest {
+        title: string
+        description: string
+        columnId: string
+    }
+
+    export interface ReadTasksRequest {
+        columnId?: string
+    }
+
+    export interface TaskDto {
+        id: string
+        title: string
+        description: string
+        columnId: string
+        createdAt: string
+        updatedAt: string | null
+    }
+
+    export interface TaskListResponse {
+        success?: boolean
+        message?: string
+        result: TaskDto[]
+    }
+
+    export interface TaskResponse {
+        success?: boolean
+        message?: string
+        result?: TaskDto
+    }
+
+    export interface UpdateTaskDto {
+        title?: string
+        description?: string
+        columnId?: string
+    }
+
+    export interface UpdateTaskRequest {
+        data: UpdateTaskDto
+    }
+
+    export class ServiceClient {
+        private baseClient: BaseClient
+
+        constructor(baseClient: BaseClient) {
+            this.baseClient = baseClient
+        }
+
+        public async create(params: CreateTaskRequest): Promise<TaskResponse> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI("POST", `/tasks`, JSON.stringify(params))
+            return await resp.json() as TaskResponse
+        }
+
+        public async createMany(params: CreateManyTasksRequest): Promise<TaskListResponse> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI("POST", `/tasks/bulk`, JSON.stringify(params))
+            return await resp.json() as TaskListResponse
+        }
+
+        public async destroy(id: string): Promise<TaskResponse> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI("DELETE", `/tasks/${encodeURIComponent(id)}`)
+            return await resp.json() as TaskResponse
+        }
+
+        public async read(params: ReadTasksRequest): Promise<TaskListResponse> {
+            // Convert our params into the objects we need for the request
+            const query = makeRecord<string, string | string[]>({
+                columnId: params.columnId,
+            })
+
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI("GET", `/tasks`, undefined, {query})
+            return await resp.json() as TaskListResponse
+        }
+
+        public async readOne(id: string): Promise<TaskResponse> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI("GET", `/tasks/${encodeURIComponent(id)}`)
+            return await resp.json() as TaskResponse
+        }
+
+        public async update(id: string, params: UpdateTaskRequest): Promise<TaskResponse> {
+            // Now make the actual call to the API
+            const resp = await this.baseClient.callTypedAPI("PUT", `/tasks/${encodeURIComponent(id)}`, JSON.stringify(params))
+            return await resp.json() as TaskResponse
         }
     }
 }
