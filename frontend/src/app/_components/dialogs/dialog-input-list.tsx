@@ -26,8 +26,6 @@ function DialogColumnInputList({ items, boardId }: DialogInputListProps) {
       updatedAt: null,
     };
 
-    console.log("newColumn", newColumn);
-
     setCurrentItems((prevItems) => [...prevItems, newColumn]);
   }
 
