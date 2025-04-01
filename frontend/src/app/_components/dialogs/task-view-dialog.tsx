@@ -1,20 +1,20 @@
 import Dialog from "./dialog";
-import IconVerticalEllipsis from "./icon-vertical-ellipsis";
-import SubtaskCheckbox from "./subtask-checkbox";
-import Select from "./select";
+import IconVerticalEllipsis from "../icon-vertical-ellipsis";
+import SubtaskCheckbox from "../subtask-checkbox";
+import Select from "../select";
 import { type Subtask, type Task, type BoardColumn } from "~/lib/types";
 
-type ViewTaskDialogProps = {
+type TaskViewDialogProps = {
   task: Task;
   subtasks: Subtask[];
   columns: BoardColumn[];
 };
 
-export default function ViewTaskDialog({
+export default function TaskViewDialog({
   task,
   subtasks,
   columns,
-}: ViewTaskDialogProps) {
+}: TaskViewDialogProps) {
   const completedSubtasksCount = subtasks.filter(
     (subtask) => subtask.isCompleted,
   ).length;

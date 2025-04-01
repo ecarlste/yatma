@@ -1,3 +1,4 @@
+import BoardEditDialog from "~/app/_components/dialogs/board-edit-dialog";
 import Header from "~/app/_components/header";
 import Sidebar from "~/app/_components/sidebar";
 import TaskBoard from "~/app/_components/task-board";
@@ -21,6 +22,9 @@ export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
 
   const isBoardEmpty = activeBoardColumns && activeBoardColumns.length === 0;
 
+  const isEditBoardDialogOpen =
+    activeBoard && activeBoardColumns && params.activeBoardId?.[1] === "edit";
+
   return (
     <main className="relative flex min-h-lvh w-full">
       <div className="flex min-h-lvh w-full flex-col">
@@ -33,6 +37,9 @@ export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
           />
         </div>
       </div>
+      {isEditBoardDialogOpen && (
+        <BoardEditDialog board={activeBoard} columns={activeBoardColumns} />
+      )}
     </main>
   );
 }

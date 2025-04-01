@@ -67,6 +67,13 @@
     font-weight: 700;
     line-height: normal;
   }
+
+  .font-button-small {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-spacing: 23px;
+  }
 }
 
 @layer base {
