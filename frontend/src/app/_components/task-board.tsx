@@ -1,13 +1,18 @@
 import { type BoardColumn } from "~/lib/types";
 import Button from "./button";
 import TaskBoardColumn from "./task-board-column";
+import TaskBoardNewColumnButton from "./task-board-new-column-button";
 
 type TaskBoardProps = {
-  columns?: BoardColumn[];
+  columns: BoardColumn[];
+  activeBoardId?: string;
 };
 
-export default async function TaskBoard({ columns }: TaskBoardProps) {
-  if (!columns) {
+export default async function TaskBoard({
+  columns,
+  activeBoardId,
+}: TaskBoardProps) {
+  if (!activeBoardId) {
     return (
       <section className="flex flex-1 items-center justify-center">
         <p className="font-heading-large text-medium-grey">
@@ -18,6 +23,7 @@ export default async function TaskBoard({ columns }: TaskBoardProps) {
   }
 
   const isBoardEmpty = columns.length === 0;
+  const href = `/boards/${activeBoardId}/edit`;
 
   if (isBoardEmpty) {
     return (
@@ -37,6 +43,7 @@ export default async function TaskBoard({ columns }: TaskBoardProps) {
       {columns.map((column) => (
         <TaskBoardColumn column={column} key={column.id} />
       ))}
+      <TaskBoardNewColumnButton href={href} />
     </section>
   );
 }

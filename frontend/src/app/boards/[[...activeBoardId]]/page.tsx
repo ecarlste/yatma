@@ -11,7 +11,7 @@ type ActiveBoardPageProps = {
 
 export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
   const params = await props.params;
-  const activeBoardId = params.activeBoardId?.[0] ?? null;
+  const activeBoardId = params.activeBoardId?.[0];
   const boards = await getBoards();
   const activeBoard = boards.find((board) => board.id === activeBoardId);
 
@@ -27,7 +27,10 @@ export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
         <Header board={activeBoard} isBoardEmpty={isBoardEmpty} />
         <div className="flex flex-1">
           <Sidebar boards={boards} activeBoardId={activeBoardId} />
-          <TaskBoard columns={activeBoardColumns} />
+          <TaskBoard
+            columns={activeBoardColumns ?? []}
+            activeBoardId={activeBoardId}
+          />
         </div>
       </div>
     </main>

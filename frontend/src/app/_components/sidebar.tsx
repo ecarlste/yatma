@@ -11,7 +11,7 @@ import { SideBarVisibilityToggle } from "./side-bar-visibility-toggle";
 
 type SidebarProps = {
   boards: Board[];
-  activeBoardId: string | null;
+  activeBoardId?: string;
 };
 
 export default function Sidebar({ boards, activeBoardId }: SidebarProps) {
