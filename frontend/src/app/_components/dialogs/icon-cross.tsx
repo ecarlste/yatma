@@ -1,8 +1,9 @@
 type IconCrossProps = {
   className?: string;
+  onClick?: () => void;
 };
 
-function IconCross({ className }: IconCrossProps) {
+function IconCross({ className, onClick }: IconCrossProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -11,6 +12,7 @@ function IconCross({ className }: IconCrossProps) {
       viewBox="0 0 15 15"
       fill="none"
       className={className}
+      onClick={onClick}
     >
       <rect
         x="12.7275"

@@ -1,3 +1,5 @@
+"use client";
+
 import { type Board, type BoardColumn } from "~/lib/types";
 import Dialog from "./dialog";
 import DialogHeading from "./dialog-heading";
@@ -6,7 +8,8 @@ import DialogContent from "./dialog-content";
 import DialogTitle from "./dialog-title";
 import DialogSection from "./dialog-section";
 import Button from "../button";
-import IconCross from "./icon-cross";
+import { useRouter } from "next/navigation";
+import DialogColumnInputList from "./dialog-input-list";
 
 type BoardEditDialogProps = {
   board: Board;
@@ -14,10 +17,15 @@ type BoardEditDialogProps = {
 };
 
 function BoardEditDialog({ board, columns }: BoardEditDialogProps) {
-  //   const closeDialogHref = `/boards/${board.id}`;
+  const router = useRouter();
+  const closeDialogHref = `/boards/${board.id}`;
+
+  function handleClose(): void {
+    router.push(closeDialogHref);
+  }
 
   return (
-    <Dialog>
+    <Dialog onClose={handleClose}>
       <DialogContent>
         <DialogTitle>Edit Board</DialogTitle>
         <DialogSection>
@@ -26,17 +34,7 @@ function BoardEditDialog({ board, columns }: BoardEditDialogProps) {
         </DialogSection>
         <DialogSection>
           <DialogHeading>Columns</DialogHeading>
-          <div className="flex flex-col gap-3">
-            {columns.map((column) => (
-              <div className="flex items-center gap-4" key={column.id}>
-                <DialogInput id={column.id} defaultValue={column.name} />
-                <IconCross className="shrink-0" />
-              </div>
-            ))}
-            <Button variant="secondary" size="small" className="w-full">
-              + Add New Column
-            </Button>
-          </div>
+          <DialogColumnInputList items={columns} boardId={board.id} />
         </DialogSection>
         <Button className="w-full">Save Changes</Button>
       </DialogContent>
