@@ -20,7 +20,7 @@ export default function TaskViewDialog({
   ).length;
 
   return (
-    <Dialog>
+    <Dialog onClose={() => console.log("close view task dialog")}>
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between gap-6">
           <h4 className="font-heading-large text-black">{task.title}</h4>
