@@ -10,6 +10,9 @@ import DialogSection from "./dialog-section";
 import Button from "../button";
 import { useRouter } from "next/navigation";
 import DialogColumnInputList from "./dialog-input-list";
+import { useForm } from "react-hook-form";
+import { type BoardFormInput, boardFormSchema } from "~/lib/board-form-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type BoardEditDialogProps = {
   board: Board;
@@ -24,20 +27,54 @@ function BoardEditDialog({ board, columns }: BoardEditDialogProps) {
     router.push(closeDialogHref);
   }
 
+  const onSubmit = async (data: BoardFormInput) => {
+    try {
+      console.log("Submitting data:", data);
+    } catch (error) {
+      console.error("Save failed:", error);
+    }
+  };
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<BoardFormInput>({
+    resolver: zodResolver(boardFormSchema),
+    defaultValues: {
+      name: board.name,
+      columns: columns.map((column) => ({
+        id: column.id,
+        name: column.name,
+      })),
+    },
+  });
+
   return (
     <Dialog onClose={handleClose}>
-      <DialogContent>
-        <DialogTitle>Edit Board</DialogTitle>
-        <DialogSection>
-          <DialogHeading>Board Name</DialogHeading>
-          <DialogInput id="board-name" defaultValue={board.name} />
-        </DialogSection>
-        <DialogSection>
-          <DialogHeading>Columns</DialogHeading>
-          <DialogColumnInputList items={columns} boardId={board.id} />
-        </DialogSection>
-        <Button className="w-full">Save Changes</Button>
-      </DialogContent>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <DialogContent>
+          <DialogTitle>Edit Board</DialogTitle>
+          <DialogSection>
+            <DialogHeading>Board Name</DialogHeading>
+            <DialogInput
+              id="name"
+              register={register("name", {
+                setValueAs: (value: string) => value.trim(),
+              })}
+              error={errors.name?.message}
+            />
+          </DialogSection>
+          <DialogSection>
+            <DialogHeading>Columns</DialogHeading>
+            <DialogColumnInputList control={control} />
+          </DialogSection>
+          <Button type="submit" className="w-full">
+            Save Changes
+          </Button>
+        </DialogContent>
+      </form>
     </Dialog>
   );
 }
