@@ -32,6 +32,7 @@ function DialogColumnInputList({ control }: DialogInputListProps) {
             error={
               control.getFieldState(`columns.${index}.name`).error?.message
             }
+            placeholder="e.g. To Do"
           />
           <IconCross
             className={`shrink-0 hover:cursor-pointer ${control.getFieldState(`columns.${index}.name`).error?.message ? "text-red" : "text-medium-grey"}`}
