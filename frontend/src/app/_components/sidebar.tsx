@@ -8,6 +8,7 @@ import IconLightTheme from "./icon-light-theme";
 import Switch from "./switch";
 import { useTaskManagerStore } from "../_providers/task-manager-store-provider";
 import { SideBarVisibilityToggle } from "./side-bar-visibility-toggle";
+import Link from "next/link";
 
 type SidebarProps = {
   boards: Board[];
@@ -36,8 +37,13 @@ export default function Sidebar({ boards, activeBoardId }: SidebarProps) {
                 isSelected={board.id === activeBoardId}
               />
             ))}
-            <div className="text-main-purple hover:text-main-purple-hover flex items-center gap-4 py-4 pl-8 hover:cursor-pointer">
-              <IconBoard />+ Create New Board
+            <div className="py-4 pl-8">
+              <Link
+                href={"/boards/add"}
+                className="text-main-purple hover:text-main-purple-hover flex w-fit items-center gap-4"
+              >
+                <IconBoard />+ Create New Board
+              </Link>
             </div>
           </div>
         </div>

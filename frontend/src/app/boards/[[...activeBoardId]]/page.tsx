@@ -25,6 +25,9 @@ export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
   const isEditBoardDialogOpen =
     activeBoard && activeBoardColumns && params.activeBoardId?.[1] === "edit";
 
+  const isAddBoardDialogOpen =
+    !activeBoard && params.activeBoardId?.[0] === "add";
+
   return (
     <main className="relative flex min-h-lvh w-full">
       <div className="flex min-h-lvh w-full flex-col">
@@ -37,7 +40,7 @@ export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
           />
         </div>
       </div>
-      {isEditBoardDialogOpen && (
+      {(isEditBoardDialogOpen ?? isAddBoardDialogOpen) && (
         <BoardFormDialog board={activeBoard} columns={activeBoardColumns} />
       )}
     </main>

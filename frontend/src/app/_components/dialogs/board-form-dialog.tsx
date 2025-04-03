@@ -15,13 +15,13 @@ import { type BoardFormInput, boardFormSchema } from "~/lib/board-form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 type BoardFormDialogProps = {
-  board: Board;
-  columns: BoardColumn[];
+  board?: Board;
+  columns?: BoardColumn[];
 };
 
 function BoardFormDialog({ board, columns }: BoardFormDialogProps) {
   const router = useRouter();
-  const closeDialogHref = `/boards/${board.id}`;
+  const closeDialogHref = board ? `/boards/${board.id}` : "/boards";
 
   function handleClose(): void {
     router.push(closeDialogHref);
@@ -43,23 +43,28 @@ function BoardFormDialog({ board, columns }: BoardFormDialogProps) {
   } = useForm<BoardFormInput>({
     resolver: zodResolver(boardFormSchema),
     defaultValues: {
-      name: board.name,
-      columns: columns.map((column) => ({
-        id: column.id,
-        name: column.name,
-      })),
+      name: board ? board.name : "",
+      columns: columns
+        ? columns.map((column) => ({
+            id: column.id,
+            name: column.name,
+          }))
+        : [],
     },
   });
+
+  const dialogTitle = board ? "Edit Board" : "Add New Board";
 
   return (
     <Dialog onClose={handleClose}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
-          <DialogTitle>Edit Board</DialogTitle>
+          <DialogTitle>{dialogTitle}</DialogTitle>
           <DialogSection>
             <DialogHeading>Board Name</DialogHeading>
             <DialogInput
               id="name"
+              placeholder="e.g. My Board"
               register={register("name", {
                 setValueAs: (value: string) => value.trim(),
               })}
