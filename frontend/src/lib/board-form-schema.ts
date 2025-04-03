@@ -1,12 +1,12 @@
 import { z } from "zod";
 
 export const boardFormSchema = z.object({
-  name: z.string().min(3).max(50),
+  name: z.string().nonempty("Can't be empty"),
   columns: z
     .array(
       z.object({
         id: z.string().uuid().optional(),
-        name: z.string().min(3).max(50),
+        name: z.string().nonempty("Can't be empty"),
       }),
     )
     .optional(),
