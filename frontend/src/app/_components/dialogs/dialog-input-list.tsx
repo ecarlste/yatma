@@ -3,7 +3,7 @@ import DialogInput from "./dialog-input";
 import IconCross from "./icon-cross";
 import { v4 as uuidv4 } from "uuid";
 import { type Control, useFieldArray } from "react-hook-form";
-import { BoardFormInput } from "~/lib/board-form-schema";
+import { type BoardFormInput } from "~/lib/board-form-schema";
 
 type DialogInputListProps = {
   control: Control<BoardFormInput>;
@@ -33,10 +33,14 @@ function DialogColumnInputList({ control }: DialogInputListProps) {
               control.getFieldState(`columns.${index}.name`).error?.message
             }
           />
-          <IconCross className="shrink-0" onClick={() => remove(index)} />
+          <IconCross
+            className={`shrink-0 hover:cursor-pointer ${control.getFieldState(`columns.${index}.name`).error?.message ? "text-red" : "text-medium-grey"}`}
+            onClick={() => remove(index)}
+          />
         </div>
       ))}
       <Button
+        type="button"
         variant="secondary"
         size="small"
         className="w-full"

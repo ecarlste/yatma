@@ -19,14 +19,14 @@ function IconCross({ className, onClick }: IconCrossProps) {
         width="3"
         height="18"
         transform="rotate(45 12.7275 0)"
-        fill="#828FA3"
+        fill="currentColor"
       />
       <rect
         y="2.12132"
         width="3"
         height="18"
         transform="rotate(-45 0 2.12132)"
-        fill="#828FA3"
+        fill="currentColor"
       />
     </svg>
   );
