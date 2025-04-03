@@ -1,5 +1,6 @@
 import { z } from "zod";
 import BoardFormDialog from "~/app/_components/dialogs/board-form-dialog";
+import TaskFormDialog from "~/app/_components/dialogs/task-form-dialog";
 import Header from "~/app/_components/header";
 import Sidebar from "~/app/_components/sidebar";
 import TaskBoard from "~/app/_components/task-board";
@@ -27,7 +28,7 @@ export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
 
   const isBoardEmpty = activeBoardColumns && activeBoardColumns.length === 0;
 
-  const isEditBoardDialogOpen: boolean = activeBoardId
+  const isEditBoardDialogOpen = activeBoardId
     ? params.activeBoardId?.[1] === "edit"
     : false;
   const isAddBoardDialogOpen =
@@ -36,6 +37,23 @@ export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
   const closeBoardFormDialogHref = activeBoardId
     ? `/boards/${activeBoardId}`
     : "/boards";
+
+  const activeTaskId =
+    params.activeBoardId?.[1] &&
+    params.activeBoardId?.[1] === "tasks" &&
+    params.activeBoardId?.[2] &&
+    z.string().uuid().safeParse(params.activeBoardId?.[2]).success
+      ? params.activeBoardId[2]
+      : undefined;
+  const isAddTaskFormDialogOpen =
+    params.activeBoardId?.[1] === "tasks" &&
+    !activeTaskId &&
+    params.activeBoardId?.[2] === "add";
+  const closeTaskFormDialogHref = `/boards/${activeBoardId}`;
+
+  console.log("activeTaskId:", activeTaskId);
+  console.log(params.activeBoardId);
+  console.log("isAddTaskFormDialogOpen:", isAddTaskFormDialogOpen);
 
   return (
     <main className="relative flex min-h-lvh w-full">
@@ -54,6 +72,12 @@ export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
           board={isEditBoardDialogOpen ? activeBoard : undefined}
           columns={isEditBoardDialogOpen ? activeBoardColumns : undefined}
           closeDialogHref={closeBoardFormDialogHref}
+        />
+      )}
+      {isAddTaskFormDialogOpen && (
+        <TaskFormDialog
+          columns={activeBoardColumns}
+          closeDialogHref={closeTaskFormDialogHref}
         />
       )}
     </main>

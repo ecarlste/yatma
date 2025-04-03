@@ -30,7 +30,10 @@ export default function Header({ board, isBoardEmpty = true }: HeaderProps) {
             {board.name}
           </h1>
         )}
-        <ActiveBoardControls isButtonDisabled={isBoardEmpty} />
+        <ActiveBoardControls
+          boardId={board?.id}
+          isButtonDisabled={isBoardEmpty}
+        />
       </div>
     </header>
   );
