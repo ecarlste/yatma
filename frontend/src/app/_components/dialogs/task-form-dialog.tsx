@@ -9,6 +9,7 @@ import DialogSection from "./dialog-section";
 import DialogHeading from "./dialog-heading";
 import DialogInput from "./dialog-input";
 import Button from "../button";
+import DialogTextarea from "./dialog-textarea";
 
 type TaskFormDialogProps = {
   task?: Task;
@@ -44,7 +45,7 @@ function TaskFormDialog({
         </DialogSection>
         <DialogSection>
           <DialogHeading>Description</DialogHeading>
-          <DialogInput
+          <DialogTextarea
             id="description"
             placeholder="e.g. A detailed description of what needs to be done."
           />
