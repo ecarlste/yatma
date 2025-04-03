@@ -1,3 +1,4 @@
+import { z } from "zod";
 import BoardFormDialog from "~/app/_components/dialogs/board-form-dialog";
 import Header from "~/app/_components/header";
 import Sidebar from "~/app/_components/sidebar";
@@ -12,7 +13,11 @@ type ActiveBoardPageProps = {
 
 export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
   const params = await props.params;
-  const activeBoardId = params.activeBoardId?.[0];
+  const activeBoardId =
+    params.activeBoardId?.[0] &&
+    z.string().uuid().safeParse(params.activeBoardId[0]).success
+      ? params.activeBoardId[0]
+      : undefined;
   const boards = await getBoards();
   const activeBoard = boards.find((board) => board.id === activeBoardId);
 
@@ -22,11 +27,15 @@ export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
 
   const isBoardEmpty = activeBoardColumns && activeBoardColumns.length === 0;
 
-  const isEditBoardDialogOpen =
-    activeBoard && activeBoardColumns && params.activeBoardId?.[1] === "edit";
-
+  const isEditBoardDialogOpen: boolean = activeBoardId
+    ? params.activeBoardId?.[1] === "edit"
+    : false;
   const isAddBoardDialogOpen =
-    !activeBoard && params.activeBoardId?.[0] === "add";
+    (!activeBoard && params.activeBoardId?.[0] === "add") ||
+    params.activeBoardId?.[1] === "add";
+  const closeBoardFormDialogHref = activeBoardId
+    ? `/boards/${activeBoardId}`
+    : "/boards";
 
   return (
     <main className="relative flex min-h-lvh w-full">
@@ -40,8 +49,12 @@ export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
           />
         </div>
       </div>
-      {(isEditBoardDialogOpen ?? isAddBoardDialogOpen) && (
-        <BoardFormDialog board={activeBoard} columns={activeBoardColumns} />
+      {(isEditBoardDialogOpen || isAddBoardDialogOpen) && (
+        <BoardFormDialog
+          board={isEditBoardDialogOpen ? activeBoard : undefined}
+          columns={isEditBoardDialogOpen ? activeBoardColumns : undefined}
+          closeDialogHref={closeBoardFormDialogHref}
+        />
       )}
     </main>
   );

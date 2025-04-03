@@ -39,7 +39,9 @@ export default function Sidebar({ boards, activeBoardId }: SidebarProps) {
             ))}
             <div className="py-4 pl-8">
               <Link
-                href={"/boards/add"}
+                href={
+                  activeBoardId ? `/boards/${activeBoardId}/add` : "/boards/add"
+                }
                 className="text-main-purple hover:text-main-purple-hover flex w-fit items-center gap-4"
               >
                 <IconBoard />+ Create New Board

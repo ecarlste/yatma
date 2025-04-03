@@ -17,11 +17,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 type BoardFormDialogProps = {
   board?: Board;
   columns?: BoardColumn[];
+  closeDialogHref: string;
 };
 
-function BoardFormDialog({ board, columns }: BoardFormDialogProps) {
+function BoardFormDialog({
+  board,
+  columns,
+  closeDialogHref,
+}: BoardFormDialogProps) {
   const router = useRouter();
-  const closeDialogHref = board ? `/boards/${board.id}` : "/boards";
 
   function handleClose(): void {
     router.push(closeDialogHref);
