@@ -14,12 +14,12 @@ import { useForm } from "react-hook-form";
 import { type BoardFormInput, boardFormSchema } from "~/lib/board-form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-type BoardEditDialogProps = {
+type BoardFormDialogProps = {
   board: Board;
   columns: BoardColumn[];
 };
 
-function BoardEditDialog({ board, columns }: BoardEditDialogProps) {
+function BoardFormDialog({ board, columns }: BoardFormDialogProps) {
   const router = useRouter();
   const closeDialogHref = `/boards/${board.id}`;
 
@@ -79,4 +79,4 @@ function BoardEditDialog({ board, columns }: BoardEditDialogProps) {
   );
 }
 
-export default BoardEditDialog;
+export default BoardFormDialog;

@@ -1,4 +1,4 @@
-import BoardEditDialog from "~/app/_components/dialogs/board-edit-dialog";
+import BoardFormDialog from "~/app/_components/dialogs/board-form-dialog";
 import Header from "~/app/_components/header";
 import Sidebar from "~/app/_components/sidebar";
 import TaskBoard from "~/app/_components/task-board";
@@ -38,7 +38,7 @@ export default async function ActiveBoardPage(props: ActiveBoardPageProps) {
         </div>
       </div>
       {isEditBoardDialogOpen && (
-        <BoardEditDialog board={activeBoard} columns={activeBoardColumns} />
+        <BoardFormDialog board={activeBoard} columns={activeBoardColumns} />
       )}
     </main>
   );
