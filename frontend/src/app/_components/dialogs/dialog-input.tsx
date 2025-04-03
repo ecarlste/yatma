@@ -7,7 +7,7 @@ type DialogInputProps = Omit<
   keyof UseFormRegisterReturn
 > & {
   id: string;
-  register: UseFormRegisterReturn;
+  register?: UseFormRegisterReturn;
   error?: string;
   placeholder?: string;
   ignorePasswordManagers?: boolean;
